@@ -1,0 +1,1634 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Estimation of Motion Vector Fields of Complex Microstructures by Time Series of Volume Images</title>
+
+    <meta name="description" content="PhD Talk by Tessa Nogatz: Estimation of Motion Vector Fields of Complex Microstructures by Time Series of Volume Images" />
+    <meta name="author" content="Tessa Nogatz" />
+
+    <link href="css/impress-common.css" rel="stylesheet" />
+    <link href="css/slides.css" rel="stylesheet" />
+
+    <script src="js/mathjax-config.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" defer></script>
+</head>
+
+<body class="impress-not-supported">
+<!--
+    This fallback message is only visible when there is `impress-not-supported` class on body.
+-->
+<div class="fallback-message">
+    <p>Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.</p>
+    <p>For the best experience please use the latest <b>Chrome</b>, <b>Safari</b> or <b>Firefox</b> browser.</p>
+</div>
+
+<div id="impress"
+    data-transition-duration="0"
+    data-width="1920"
+    data-height="1080"
+    data-max-scale="3"
+    data-min-scale="0"
+    data-perspective="1000"
+    data-autoplay="0">
+
+    <div id="Frontpage" class="step slide title skip-progress" data-x="0" data-y="0">
+        <aside class="gdbar">Mathematik</aside>
+        <aside class="gdbar right"><img src="images/RPTU-Logo-RGB.svg"></aside>
+
+        <h1> Estimation of Motion Vector Fields of Complex Microstructures by Time Series of Volume Images</h1>
+        <h2><span>Tessa Nogatz</span><br>RPTU Kaiserslautern-Landau, Germany</h2>
+    </div>
+
+    <div id="Formula1" class="step slide bg no-padding" data-rel-x="2200" data-rel-y="0" style="overflow: hidden;">
+        <h1>Triumphant Carbon</h1>
+
+        <video src="images/formula-1/crash.mp4#t=11.3" id="video"></video>
+
+        <img src="images/formula-1/car.jpg" style="position: absolute; top: 0; left: 0; width: 518px; border-top: none;">
+        <img src="images/formula-1/chassis.jpg" style="position: absolute; top: 316px; left: 0; width: 518px;">
+        <img src="images/formula-1/carbon_fiber.jpg" style="position: absolute; top: 692px; left: 0; width: 518px;">
+
+        <img class="table" src="images/formula-1/steel-vs-carbon-table.PNG" style="position: absolute; left: 518px; top: 647px; width: 1333px; border: none; z-index: 10;">
+
+        <div id="playvideo" class="substep" style="position: absolute; left: 518px; width: 1333px; height: 100%; top: 0;"><!-- Intentionally left blank --></div>
+
+        <div class="notes">
+            <ol>
+                <li>In 1981, Formula 1 driver John Watson lost control over his car and got involved in a major crash. His car was torn apart, it burst in flames and everyone was sure at that time, that a driver cannot survive such a severe crash</li>
+                <li>p=1 already strong limitation</li>
+                <li>needed to deduce minimizer in step 3 of direct method</li>
+                <li>needed to deduce minimizer in step 3 of direct method</li>
+                <li>We better find an object that can be measured by both parts of regularization</li>
+                <li>basically set of admissible solutions such that we find an object of interesst in there</li>
+            </ol>
+        </div>
+    </div>
+
+    <div id="Intro" class="step slide bg no-padding">
+        <div style="background-image: url(images/intro/bulkfoam.png);">
+            <div class="ribbon ribbon-top-left"><span>Bulk</span></div>
+        </div>
+        <div style="background-image: url(images/intro/fiber.png); background-position: 140px center;">
+            <div class="ribbon ribbon-top-left"><span>Fiber</span></div>
+        </div>
+        <div style="background-image: url(images/intro/foam.png);">
+            <div class="ribbon ribbon-top-left"><span>Foam</span></div>
+        </div>
+        <div style="background-image: url(images/intro/fibermatrix.png); background-position: 140px center;">
+            <div class="ribbon ribbon-top-left"><span style="font-size: 70%;">Fiber Composite</span></div>
+        </div>
+
+        <div class="substep" data-substep-order="1" style="background-image: url(images/intro/strstrbulk.png); left: 500px; top: 180px;"></div>
+        <div class="substep" data-substep-order="1" style="background-image: url(images/intro/strstrfibersingle.png); right: 20px; top: 180px;"></div>
+        <div class="substep" data-substep-order="1" style="background-image: url(images/intro/strstrfoam.png); left: 500px; bottom: 10px;"></div>
+        <div class="substep" data-substep-order="1" style="background-image: url(images/intro/strstrcomp.png); right: 20px; bottom: 10px;"></div>
+    </div>
+
+    <div id="In-Situ-Materials-Test" class="step slide" data-x="6600" data-y="0" data-z="0" data-scale="1" style="text-align: center;">
+        <h1 style="margin-top: 0; margin-bottom: 0.2em;">In Situ Materials Test</h1>
+
+        <img src="images/in-situ-materials-test/in-situ-materials-test.png" style="width: 95%;">
+    </div>
+
+    <div id="Intro-3D" class="step slide" data-rel-x="2200" data-rel-y="0">
+        <h1 style="margin-top: 0; margin-bottom: 0.2em;">3D Representations of Materials</h1>
+
+        <div style="width: 30%; float: left; margin-right: 3%;">
+            <h2>Foam</h2>
+            <ul>
+                <li>Spatially sparse material</li>
+                <li>Full layers collapse where struts break</li>
+            </ul>
+        </div>
+
+        <div style="width: 30%; float: left; margin-right: 3%;">
+            <h2>Fiber Composites</h2>
+            <ul>
+                <li>Matrix fiber bonding crucial</li>
+                <li>Where many fibers debond, matrix will rupture</li>
+            </ul>
+        </div>
+
+        <div style="width: 30%; float: right;">
+            <h2>Concrete</h2>
+            <ul>
+                <li>Very brittle material</li>
+                <li>Microcracking is forerunner of global failure</li>
+            </ul>
+        </div>
+
+        <ul class="shortcuts">
+            <li><a href="javascript:document.getElementById('Intro-3D').classList.toggle('fast');">Faster Gifs</a></li>
+        </ul>
+    </div>
+
+    <div id="Requirements" class="step slide">
+        <h1 style="font-size: 1.7em;">Requirements for Motion Estimation Algorithms</h1>
+
+         <div class="bg" style="width: 30%; height: 100%; float: left; margin-right: 3%; background-image: url(images/requirements/triptest.gif); background-size: 120% auto; background-position: center -40px;">
+        </div>
+
+        <div style="width: 60%; float: left; margin-left: 7%; margin-top: 4%;">
+            <p style="text-align:left;"> Compute motion </p>
+            <ul>
+                <li>voxel accurate</li>
+                <li>for large datasets (\(\approx 1000^3\) voxels)</li>
+                <li>for large displacements</li>
+                <li>that is potentially discontinuous</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="ME-Framework" class="step slide">
+        <h1 style="font-size: 1.85em;">A General Framework for Motion Estimation</h1>
+
+        <div class="bg" style="font-size: 54px; background-size: 1170px; background-position: 440px 14px; padding-top: 20px;">
+            <div class="substep" data-substep-order="1" style="position: relative; font-size: 34px; left: calc(50% + 390px); top: 60px;">
+                \( \phi(\ux) = \ux + \ub(\ux), \)<br>
+                where \(\ub = (u, v, w)\)
+            </div>
+            <div style="margin-top: -2.5%;">
+            \begin{equation}
+                I_0(\ux) = I_1(\phi(\ux))
+            \end{equation}
+            </div>
+        </div>
+
+        <div class="substep" data-substep-order="2" style="font-size: 54px;">
+            \begin{equation}
+                \min_\phi \int_\Omega \left(\class{substep-2-i0}{I_0(\ux)}\class{hidden}{I_0(\ux)}-\class{substep-2-i1}{I_1(\phi(\ux))}\class{hidden}{I_1(\phi(\ux))}\right)^2\,d\ux + \lambda \mathcal{R}(\phi)
+            \end{equation}
+        </div>
+        <div class="substep bg" data-substep-order="3" style="background-image: url(images/me-framework-distance-measure.png); height: 111px; width: 100%; background-size: 910px; background-position: 544px -8px; margin-top: -78px;">
+            <div style="left: 651px; position: absolute; top: 688px;">\( \mathcal{D} \)</div>
+        </div>
+    </div>
+
+    <div id="Local-DVC" class="step slide no-padding" style="background-image: url(images/local-dvc/tripsnip2wholeimg.png); background-size: cover; background-repeat: no-repeat;" data-x="0" data-y="1500">
+        <h1 style="padding: 0.4em 0; margin-bottom: 0;">Local Digital Volume Correlation</h1>
+
+        <div class="substep" data-substep-order="1" style="position: absolute; top: 0; width: 100%; height: 100%; background-image: radial-gradient(circle, #d13896 5px, rgba(0,0,0,0) 5px), linear-gradient(to right, #d13896 3px, transparent 3px), linear-gradient(to bottom, #d13896 3px, transparent 3px); background-size: 100px 100px; z-index: -1; border-radius: 10px;">
+        </div>
+        <div class="substep" data-substep-order="2" style="position: absolute; top: 0; width: 100%; height: 100%; background-image: linear-gradient(to right, #26d07c 1px, transparent 1px), linear-gradient(to bottom, #26d07c 1px, transparent 1px); background-size: 20px 20px; z-index: -1; border-radius: 10px;">
+        </div>
+
+        <div class="bg" style="position: relative; font-size: 48px; padding: 10px 0; top: 525px;">
+            \begin{equation}
+                \min_{\ub} \class{substep-1}{\sum_{d=1}^{N_c}} \class{substep-2}{\sum_{i=1}^{K^3}} \left(I_1(\class{substep-1}{\ux_d}+\class{substep-2}{m_i}+\class{substep-3-insert}{\ub_d\phi}\class{substep-3-remove}{\ub_h}(\class{substep-1}{\ux_d}))-I_0(\class{substep-1}{\ux_d}+\class{substep-2}{m_i})\right)^2
+            \end{equation}
+            <div class="substep" data-substep-order="3"><!-- Intentionally left blank ---></div>
+        </div>
+    </div>
+
+    <div id="Local-DVC-cont" class="step slide" data-rel-x="2200" data-rel-y="0">
+        <h1>Local Digital Volume Correlation <small>(cont.)</small></h1>
+
+        <div class="bg"><span style="font-variant: small-caps;">Levenberg-Marquardt:</span>
+            <div>
+                \begin{equation}
+                    \left(J_k^TJ_k + \lambda\mathbb{I}\right)p_k = -J_k \left(I_1(\ub^k)-I_0\right)
+                \end{equation}
+            </div>
+            <div class="substep" data-substep-order="2"><!-- Intentionally left blank --></div>
+        </div>
+
+        <div class="substep" data-substep-order="1">where
+            <div style="margin-top: -65px;">
+                \begin{equation}
+                    J_k^{dd} = \sum_{i=1}^{K^3} \nabla I_1(\ux_d+m_i +\ub^k_d)
+                \end{equation}
+            </div>
+        </div>
+    </div>
+
+    <div id="Tikhonov" class="step slide">
+        <h1>Tikhonov Regularization</h1>
+
+        <div class="formula" style="position: absolute; left: 0; margin-top: -12px; text-align: center; width: 100%; margin-left: -100px;">
+            \begin{align}
+                Tx &= y\\
+                Tx^\delta &= y^\delta
+            \end{align}
+        </div>
+        <div style="float: left;">
+            <p><b>Goal:</b></p>
+            <p><b>Real world:</b></p>
+        </div>
+        <div style="float: left;">
+            <p>Solve equation</p>
+            <p>Solve equation</p>
+        </div>
+        <div class="bg" style="float: left; padding-left: 235px;">
+            <p>&nbsp;</p>
+            <p>with noisy data \(y^\delta\) such that<br>\(||y-y^\delta||\leq \delta\)</p>
+            <p class="substep" data-substep-order="1" style="margin-top: 62px;">with \( x^\delta_* \in \{x\in X \;\big| \; ||Tx-y^\delta|| \leq \delta\} \)</p>
+        </div>
+
+        <div class="substep bg" data-substep-order="1" style="position: absolute; top: 368px; left: 716px; background-image: url(images/arrow-down.png); background-position: 90px 38px; background-size: 80px; padding-top: 100px;">
+            \begin{align}
+                Tx^\delta_* &= y^\delta
+            \end{align}
+        </div>
+
+        <div class="substep bg once" data-substep-order="2" style="position: absolute; top: 588px; left: 1166px; background-image: url(images/tikhonov-bg.png); background-size: 609px; background-position: 0 0; padding: 63px 85px 240px 343px;">
+            \( \pazocal{M}(y^\delta, \delta) \)
+        </div>
+
+        <div class="substep bg" data-substep-order="3" style="position: relative; clear: both; font-size: 32px; padding: 30px 190px 30px 60px; background-image: url(images/total-variation/theorem-1.png); margin: 0 -61px; background-size: calc(100% + 60px) auto; background-position: -23px 7px;">
+            Let \(\colra{T}{X}{Y}\) have dense range, \(y\in\mathcal{R}(T)\) and \(y^\delta \in Y\) such that  \(||y^\delta-y||\leq \delta\) with \(||y^\delta||>\delta\). Then, for the Tikhonov-approximation \(x_*\) and some \(\alpha_*>0\) holds \( ||Tx_*-y^\delta||=\delta \) and \( (T^*T+\alpha_*\mathbb{I})x_* = T^*y^\delta \).
+            <div style="position: absolute; right: 8px; top: 21px;"><sup style="color: #fff;">1</sup></div>
+        </div>
+
+        <div class="substep theorem" data-substep-order="4" style="position: relative; font-size: 32px; padding: 4px 60px 2px 60px; margin: 0 -61px; background-size: calc(100% + 60px) auto; background-position: -30px -20px;">
+            Let \(T\) be injective with dense range in \(y\), and let \(\{\Reg_\alpha\}_{\alpha>0}\) be given by \(\Reg_\alpha = (T^*T+\alpha_*\mathbb{I})^{-1}T^*\). If \(y\in\mathcal{R}(T)\) and \(\{y^\delta\}_{\delta >0}\subset Y\) is a such that  \(||y^\delta-y||\leq \delta\), and if \(\alpha = \alpha(\delta)\) is chosen such that \(\alpha(\delta)\rightarrow 0 \) and \( \delta^2/\alpha(\delta) \rightarrow 0 \) as \(\delta\rightarrow 0 \), then the approximations \(\pazocal{R}_{\alpha(\delta)}y^\delta\) converge to \(x\) as \(\delta\rightarrow 0\).
+            <div style="position: absolute; right: 8px; top: -5px;"><sup style="color: #fff;">1</sup></div>
+        </div>
+
+
+        <footer class="substep" data-substep-order="3">
+            <sup>1</sup> Hanke, Martin. A Taste of Inverse Problems: Basic Theory and Examples. Society for Industrial and Applied Mathematics, 2017.
+        </footer>
+    </div>
+
+    <div id="Global-DVC" class="step slide">
+        <h1>Global Digital Volume Correlation</h1>
+
+        <div class="bg">
+            <div class="substep" data-substep-order="1" style="font-size: 40px; padding-left: 1180px;">
+                \( \ub_h= \sum_{\alpha,n} a_{\alpha n}\psi_n(\ux)e_\alpha \)
+            </div>
+
+            \begin{equation}
+                \min_\ub \int_\Omega \left(I_1\class{substep-1}{(\ux+\ub)}\class{substep-2}{(\ux)+\ub^T\nabla I_0(\ux)} - I_0(\ux)\right)^2\,d\ux
+            \end{equation}
+
+            <div class="substep" data-substep-order="2"><!-- Intentionally left blank --></div>
+        </div>
+
+        <p class="substep" data-substep-order="3">Solve a linear system \(\mathbf{M}\,\text{d}\ub = \mathbf{b}\) for small increments \(\ub^{n+1}=\ub^{n}+d\ub\)</p>
+        <div class="substep" data-substep-order="3">
+            \begin{align}
+                M_{ij}&=\sum_{\ux}\left(\nabla I_0(\ux)\cdot\psi_i(\ux)\right)\left(\nabla I_0(\ux)\cdot\psi_j(\ux)\right)\\
+                b_i &= \sum_{\ux}\left(\nabla I_0(\ux)\cdot\psi_i(\ux)\right)\left(I_0(x)-I_1(\ux+\ub^n)\right)
+            \end{align}
+        </div>
+    </div>
+
+    <div id="ALDVC" class="step slide">
+        <h1>Augmented-Lagrangian DVC</h1>
+
+        <div>Combine global and local DVC</div>
+        <div style="font-size: 36px;" class="formula">
+            \begin{align}
+            \begin{split}
+                \pazocal{L} = &\sum_i\int_{\Omega_i} \left(I_1(\ux+\class{substep-1-minimize substep-2-hold}{\ub_i^\class{substep-2-hold-added long}{k+1}}(\ux) + \class{substep-1-minimize substep-2-hold}{\textbf{F}_i^\class{substep-2-hold-added long}{k+1}}\left(\ux-\ux_i^0\right))-I_0(\ux)\right)^2 \\ &+  \frac{\alpha}{2}\left| \nabla \class{substep-1-hold substep-2-minimize}{\hat{\ub}_i^\class{substep-1-hold-added}{k}} - \class{substep-1-minimize substep-2-hold}{\textbf{F}_i}^\class{substep-2-hold-added long}{k+1} + \class{substep-1-hold substep-2-hold substep-3-update}{\mathbf{W}_i^\class{substep-1-hold-added substep-2-hold-added substep-3-added}{k}}\right|^2 + \frac{\mu}{2}\left|\class{substep-1-hold substep-2-minimize}{\hat{\ub}_i^\class{substep-1-hold-added}{k}} - \class{substep-1-minimize substep-2-hold}{\ub_i^\class{substep-2-hold-added long}{k+1}} - \class{substep-1-hold substep-2-hold substep-3-update}{\mathbf{v}_i^\class{substep-1-hold-added substep-2-hold-added substep-3-added}{k}}\right|^2\dx.
+            \end{split}
+            \end{align}
+        </div>
+
+        <div class="substep" data-substep-order="1">Solve alternating</div>
+        <ul>
+            <li class="substep" data-substep-order="1">Subproblem 1 (local DVC):
+                <span>Hold \( \class{substep-1-hold}{\{\hat\ub_i^k\}} \), \( \class{substep-1-hold}{\{\mathbf{W}_i^k\}} \) and \( \class{substep-1-hold}{\{\mathbf{v}_i^k\}} \) and minimize for \( \class{substep-1-minimize}{\{\mathbf{F}_i\}} \) and \( \class{substep-1-minimize}{\{\ub_i\}} \).</span></li>
+            <li class="substep" data-substep-order="2">Subproblem 2 (global DVC):
+                <span>Hold \( \class{substep-2-hold}{\{\mathbf{F}_i^{k+1}\}} \), \( \class{substep-2-hold}{\{\ub_i^{k+1}\}} \), \( \class{substep-2-hold}{\{\mathbf{W}_i^k\}} \) and \( \class{substep-2-hold}{\{\mathbf{v}_i^k\}} \) and minimize for \( \class{substep-2-minimize}{\hat\ub_i} \).</span></li>
+            <li class="substep" data-substep-order="3">Subproblem 3 (Lagrange Multiplier update):
+                <span>Update  \( \class{substep-3-update}{\{\mathbf{W}_i^k\}} \) and \( \class{substep-3-update}{\{\mathbf{v}_i^k\}} \) for each \(i\).</span></li>
+        </ul>
+
+        <div class="notes">
+            The authors first employ a local DVC by fixing \(\{\hat\ub_i^k\}\), }(\{\mathbf{W}_i^k\}\) and \(\{\mathbf{v}_i^k\}\)
+        </div>
+    </div>
+
+    <div id="MIR" class="step slide">
+        <h1>Medical Image Registration</h1>
+
+        <div class="formula" style="position: relative; margin-top: 120px;">
+            \begin{equation}
+                \min_\phi \int_\Omega \left(I_1(\phi(\ux))-I_0(\ux)\right)^2\dx + \Reg(\phi)
+            \end{equation}
+
+            <div class="substep" data-substep-order="1" style="position: absolute; top: -71px; left: 676px;"><img src="images/mir/diffeomorphic.png" style="width: 400px;"></div>
+        </div>
+
+        <div class="substep once" data-substep-order="2"><img src="images/mir/mir3.png" style="width: 90%;"></div>
+
+        <p class="substep no-transition" data-substep-order="3" style="margin-top: 100px;">
+            <span class="phi">\( \class{hidden}{\phi(\ux)}\class{substep-3-phi}{\phi(\ux)}\class{substep-3-eq}{ = \ux+\ub(\ux)} \)</span><span class="reg">\( \class{hidden}{\Reg}\class{substep-3-reg}{\Reg}^{\class{substep-3-eq}{\text{elas}}}\class{substep-3-eq}{(\ub) = \int_\Omega \frac{\mu}{4} \left(\nabla\ub + \nabla^T \ub\right)^2 + \frac{\lambda}{2}\left(\text{div}\, \ub\right)^2 \dx} \)</span>
+        </p>
+        <div class="substep bg" data-substep-order="3"><!-- Intentionally left blank --></div>
+
+        <p class="substep" data-substep-order="4" style="margin-top: 140px; padding-left: 270px; text-align: left;">
+            Nice physical interpretation:<br>Regularization forces displacement to follow a materials law
+        </p>
+    </div>
+
+
+    <!-- Comparison State of the Art: Start -->
+
+    <div id="Comparison-State-of-the-Art" class="step" style="width: 1850px; height: 1000px; z-index: 20;">
+        <img src="images/state-of-the-art-comparison/foam3d.PNG" style="width: 580px; position: absolute; top: 480px; left: 8px;">
+        <img src="images/state-of-the-art-comparison/foam-yz.PNG" style="width: 270px; position: absolute; top: 386px; left: 510px;">
+    </div>
+
+    <div id="Comparison-Overview" class="step slide" data-rel-x="0" data-rel-y="0">
+        <h1>Comparison of State-of-the-Art Methods</h1>
+
+        <div class="formula">
+            \begin{align}
+                u(x,y,z) &= \begin{cases}
+                z\cdot 0.005\cdot K & \text{if } z &lt; D/2,\\
+                (z-D/2)\cdot 0.005\cdot K & \text{if } z>D/2
+                \end{cases}\\
+                v(x,y,z) &= 0\\
+                w(x,y,z) &= -0.2 - \frac{K-0.2}{\sqrt{0.5\cdot e^{-0.04\cdot(z-D/2)}}}
+            \end{align}
+        </div>
+
+        <div class="container w" style="clear: both;">
+            <div class="formula">
+                \( w(x,y,z) \)
+            </div>
+            <div class="flex">
+                <div class="bg" style="background-image: url(images/state-of-the-art-comparison/w-effect.PNG);"><!-- Intentionally left blank --></div>
+                <div class="bg" style="background-image: url(images/state-of-the-art-comparison/c1.png);"><!-- Intentionally left blank --></div>
+                <div class="bg" style="background-image: url(images/state-of-the-art-comparison/c2.png);"><!-- Intentionally left blank --></div>
+                <div class="bg" style="background-image: url(images/state-of-the-art-comparison/c3.png);"><!-- Intentionally left blank --></div>
+                <div class="bg" style="background-image: url(images/state-of-the-art-comparison/c4.png);"><!-- Intentionally left blank --></div>
+            </div>
+            <img src="images/state-of-the-art-comparison/c-scale.png">
+        </div>
+
+        <div class="container v">
+            <div class="formula">
+                \( v(x,y,z) \)
+            </div>
+            <div class="flex">
+                <div class="bg" style="background-image: url(images/state-of-the-art-comparison/v-effect.PNG);"><!-- Intentionally left blank --></div>
+                <div class="bg" style="background-image: url(images/state-of-the-art-comparison/b1.png);"><!-- Intentionally left blank --></div>
+                <div class="bg" style="background-image: url(images/state-of-the-art-comparison/b2.png);"><!-- Intentionally left blank --></div>
+                <div class="bg" style="background-image: url(images/state-of-the-art-comparison/b3.png);"><!-- Intentionally left blank --></div>
+                <div class="bg" style="background-image: url(images/state-of-the-art-comparison/b4.png);"><!-- Intentionally left blank --></div>
+            </div>
+            <img src="images/state-of-the-art-comparison/b-scale.png">
+        </div>
+
+        <div class="container u" style="margin-left: 0;">
+            <div class="formula">
+                \( u(x,y,z) \)
+            </div>
+            <div class="flex">
+                <div class="bg" style="background-image: url(images/state-of-the-art-comparison/u-effect.PNG);"><!-- Intentionally left blank --></div>
+                <div class="bg" style="background-image: url(images/state-of-the-art-comparison/a1.png);"><!-- Intentionally left blank --></div>
+                <div class="bg" style="background-image: url(images/state-of-the-art-comparison/a2.png);"><!-- Intentionally left blank --></div>
+                <div class="bg" style="background-image: url(images/state-of-the-art-comparison/a3.png);"><!-- Intentionally left blank --></div>
+                <div class="bg" style="background-image: url(images/state-of-the-art-comparison/a4.png);"><!-- Intentionally left blank --></div>
+            </div>
+            <img src="images/state-of-the-art-comparison/a-scale.png">
+        </div>
+    </div>
+
+    <div id="Comparison-State-of-the-Art-u" class="step skip-progress" data-rel-x="-320" data-rel-y="220" data-rel-to="Comparison-Overview" data-scale="0.6" data-transition-duration="1000">
+        <!-- Intentionally left blank -->
+    </div>
+
+    <div id="Comparison-State-of-the-Art-v" class="step skip-progress" data-rel-x="610" data-rel-y="0" data-scale="0.6" data-transition-duration="1500">
+        <!-- Intentionally left blank -->
+    </div>
+
+    <div id="Comparison-State-of-the-Art-w" class="step skip-progress" data-rel-x="610" data-rel-y="0" data-scale="0.6" data-transition-duration="1500">
+        <!-- Intentionally left blank -->
+    </div>
+
+    <div id="Comparison-State-of-the-Art-reset" class="step skip-progress" data-rel-x="0" data-rel-y="0" data-rel-to="Comparison-Overview" data-scale="1" data-transition-duration="1500">
+        <!-- Intentionally left blank -->
+    </div>
+
+    <!-- Comparison State of the Art: End -->
+
+
+    <div id="TVOpticalFlow" class="step slide" data-x="0" data-y="3000">
+        <h1 style="margin-top: 0;">Total Variation Optical Flow</h1>
+
+        <div class="formula" style="float: left; width: 1000px;">
+            \begin{equation}
+                \min_\ub \int_\Omega |I_0(\ux)-I_1(\ux+\ub)| +|\nabla \ub|\dx
+            \end{equation}
+
+            <div class="substep" data-substep-order="2" style="font-size: 38px; margin-top: 30px; margin-left: -66px">
+                \begin{align}
+                    \begin{split}
+                    \class{substep-2-t}{T}\class{substep-2-v}{V}\class{hidden}{TV}\class{substep-2-rest}{(f)} &\class{substep-2-rest}{= \int_{\Omega}|D f|}  \\
+                    &\class{substep-2-rest}{= \sup\Big\{\int_\Omega f \dvg \g \,dx \;\big|\; \g = (g_1, \ldots, g_n)\in C_0^1(\Omega;\R^n) \;\text{and}\; |\g(\ux)|\leq 1 \;\text{for}\; \ux\in\Omega\Big\}}
+                    \end{split}
+                \end{align}
+            </div>
+        </div>
+        <p class="substep" data-substep-order="1" style="position: relative; float: left; text-align: left; margin: -30px 0 0 0; font-size: 38px;">
+            \(T\)<span class="tv-desc" style="margin: 0 25px 0 -3px;">otal</span>\(V\)<span class="tv-desc" style="margin: 0 0 0 -5px;">ariation</span>
+        </p>
+
+        <ul class="substep" data-substep-order="3">
+            <li>preserves edges</li>
+            <li>removes spurios oscillations</li>
+            <li>functions with finite number of jumps</li>
+        </ul>
+
+        <div class="substep bg" data-substep-order="4" style="position: relative; clear: both; font-size: 32px; padding: 30px 190px 20px 60px; background-image: url(images/total-variation/theorem-1.png); margin: 0 -61px; background-size: calc(100% + 60px) auto; background-position: -23px 7px;">
+            Let \(\Omega\subset\R^N\) be an open set and let \(u\in\bv(\Omega)\). Then there exists a sequence \((u_n)_{n\in\N}\) of functions in \(C^\infty \cap W^{1,1}(\Omega)\) such that \(u_n\rightarrow u\zpftext{in}L_1(\Omega)\) and \(J(u_n)=\int_\Omega |\nabla u_n|dx \rightarrow J(u) = \int_\Omega |Du| \zpftext{as} n\rightarrow\infty\).
+            <div style="position: absolute; right: 8px; top: 21px;"><sup style="color: #fff;">1</sup></div>
+        </div>
+
+        <div class="substep" data-substep-order="5" style="position: relative; font-size: 32px; padding: 4px 60px 1px 60px; background-image: url(images/total-variation/theorem-2.png); margin: 0 -61px; background-size: calc(100% + 60px) auto; background-position: -23px -20px;">
+            Let for the sake of simplicity be \(N=M=L\) and \(h=1/M\), \(\Omega = (0,1)^3\). Let \(TV_h(\ub)\) be the discrete total variation.<br> Then, as \(h\rightarrow 0\), \(TV_h\) \(\Gamma\)-converges to
+            <div style="margin-top: -1.5%;">
+            \begin{equation}
+                TV_h(\ub;\Omega) = \begin{cases}
+                    \int_\Omega |D\ub| & \text{if } \ub\in\bv(\Omega)\cap L_1(\Omega), \\
+                    +\infty & \text{if } \ub\in\bv(\Omega)\backslash L_1(\Omega).
+                \end{cases}
+            \end{equation}
+            </div>
+            <div style="position: absolute; right: 8px; top: -5px;"><sup style="color: #fff;">1</sup></div>
+        </div>
+
+        <footer class="substep" data-substep-order="4">
+            <sup>1</sup> Chambolle, Antonin, et al. An Introduction to Total Variation for Image Analysis. Theoretical Foundations and Numerical Methods for Sparse Recovery (2010): 227.
+        </footer>
+    </div>
+
+    <div id="TV-3D" class="step slide" data-rel-x="2200" data-rel-y="0">
+        <div class="ribbon ribbon-top-left"><span>3DOF</span></div>
+
+        <h1 style="font-size: 1.9em;">TV Optical Flow Solved by Approximation<sup>1</sup><sup>2</sup></h1>
+
+        <div class="substep" data-substep-order="1" style="position: relative; margin-bottom: 55px;">
+            <div class="formula jgrad" style="padding-left: 440px; margin-bottom: 100px;">
+                \begin{equation}
+                    J_{\text{Grad}}(\ub)=\int_\Omega\Psi\left(|\nabla I_0(\ux)-\nabla I_1(\ux+\ub)|\right) \dx
+                \end{equation}
+            </div>
+
+            <div class="formula jdata" style="margin-bottom: 100px;">
+                \begin{equation}
+                    J_{\text{Data}}(\ub) = \int_\Omega\Psi\left(|I_0(\ux)-I_1(\ux+\ub)|\right) \dx
+                \end{equation}
+            </div>
+
+            <div class="formula jsmooth" style="margin-bottom: 100px;">
+                \begin{equation}
+                    J_{\text{Smooth}}(\ub)= \int_\Omega  \Psi\left( |\nabla u| + |\nabla v |+|\nabla w|\right) \dx
+                \end{equation}
+            </div>
+
+            <div class="formula psi" style="position: absolute; top: 118px; left: 344px;">
+                \( \Psi(s^2) = \sqrt{s^2+\varepsilon^2} \)
+            </div>
+
+            <div style="clear: both;"></div>
+        </div>
+
+        <div class="formula" style="clear: both;">
+            \begin{equation}
+                J_{\text{total}}(\ub)=J_{\text{Data}}(\ub)+\lambda J_{\text{Grad}}(\ub)+\mu J_{\text{Smooth}}(\ub)
+            \end{equation}
+        </div>
+
+        <div class="substep" data-substep-order="2" style="margin-bottom: 30px;">
+            <p style="float: left; width: 22%; text-align: left; margin: 0px 60px;">First variation:</p>
+            <div class="formula">
+                \( J_{\text{total}}'(u) = \frac{\partial}{\partial \tau} J_{\text{total}}(\ub + \tau \vb)\big|_{\tau = 0} \)
+            </div>
+        </div>
+
+        <div class="substep" data-substep-order="3" style="clear: both; position: relative;">
+            <div style="margin: 0 60px;">
+                <span>First component:</span><span class="substep" data-substep-order="4">Lagged diffusivity / Kacanovs Method:</span>
+            </div>
+            <div class="formula">
+                \begin{split}
+                    0 = \,&\Psi'(\class{substep-4 no-color}{(}I_d^\class{substep-4}{k+1}\class{substep-4 no-color}{)}^2)I_d^\class{substep-4}{k+1}I_x^\class{substep-4}{k} \\
+                    &+\lambda\Psi'(\class{substep-4 no-color}{(}I_{xd}^\class{substep-4}{k+1}\class{substep-4 no-color}{)}^2 + \class{substep-4 no-color}{(}I_{yd}^\class{substep-4}{k+1}\class{substep-4 no-color}{)}^2 + \class{substep-4 no-color}{(}I_{zd}^\class{substep-4}{k+1}\class{substep-4 no-color}{)}^2)(I_{xx}^\class{substep-4}{k}I_{xd}^\class{substep-4}{k+1}+I_{xy}^\class{substep-4}{k}I_{yd}^\class{substep-4}{k+1}+I_{xz}^\class{substep-4}{k}I_{zd}^\class{substep-4}{k+1})\\
+                    &+\mu\text{div}\left(\Psi'\left(|\nabla u^\class{substep-4}{k+1} | + |\nabla v^\class{substep-4}{k+1} |+|\nabla w^\class{substep-4}{k+1}|\right)\nabla u^\class{substep-4}{k+1}\right)
+                \end{split}
+            </div>
+
+            <div class="partial">
+                \( I_x=\partial_x I_1(\ux+\ub) \)
+            </div>
+        </div>
+
+        <footer>
+            <sup>1</sup> Brox, T., et al. (2004). High Accuracy Optical Flow Estimation Based on a Theory for Warping. ECCV 2004. Springer, Berlin, Heidelberg.<br>
+            <sup>2</sup> <b>Nogatz, T.</b>, et al. (2022). 3D Optical Flow for Large CT Data of Materials Microstructures. Strain 2022, 58(3).
+        </footer>
+    </div>
+
+    <div id="TVL1" class="step slide">
+        <div class="ribbon ribbon-top-left"><span>TVL1</span></div>
+
+        <h1 style="font-size: 1.9em;">TV Optical Flow Solved by Discretization<sup>1</sup><sup>2</sup></h1>
+
+        <div class="substep" data-substep-order="1" style="font-size: 32px;"><!-- Intentionally left blank --></div>
+        <div class="substep" data-substep-order="2" style="font-size: 32px;"><!-- Intentionally left blank --></div>
+
+        <div style="font-size: 32px;">
+            \begin{equation}
+                \min_\ub \int_\Omega\ \lambda |\class{substep-0}{I_0(\ux) -I_1(\ux+\ub)}\class{substep-1}{I_0(\ux) -I_1(\ux+\ub_0) - \nabla I_1^T(\ux+\ub_0)(\ub-\ub_0)}\class{substep-2}{\rho(\ub)}| + |\nabla \ub|\dx
+            \end{equation}
+        </div>
+
+        <div class="substep" data-substep-order="3" style="font-size: 36px;">
+            <div style="margin: 0 60px; margin-top: -2%;">
+                <span>Introduce auxiliary variable \(\db\):</span>
+            </div>
+            <div class="formula" style="font-size: 32px; margin-top: -2%;">
+                \begin{equation}
+                    \min_{\ub, \db}\ \int_\Omega |\nabla \ub| + \frac{1}{2\theta}||\ub-\db||_2^2 + \lambda |\rho(\db)|\dx
+                \end{equation}
+            </div>
+        </div>
+
+        <div class="substep" data-substep-order="4" style="font-size: 36px">
+            <div style="margin: 0 60px; margin-top: -2%;">
+                <span>Solve alternating for \(\ub\) and \(\db\):</span>
+            </div>
+            <div class="formula" style="font-size: 32px margin-top: -2%;">
+                \begin{align}
+                    \ub^{k+1} &= \min_{\ub} \int_\Omega |\nabla \ub| + \frac{1}{2\theta} ||\ub-\db^k||_2^2 \dx\\
+                    \db^{k+1} &= \min_{\db} \int_\Omega ||\ub^{k+1}-\db||_2^2 + \lambda |\rho(\db)|\dx
+                \end{align}
+            </div>
+        </div>
+
+        <footer>
+            <sup>1</sup> Zach, C., et al. A Duality Based Approach for Realtime TV-L<sup style="color: inherit;">1</sup> Optical Flow. Joint Pattern Recognition Symposium. Springer, Berlin, Heidelberg, 2007.<br>
+            <sup>2</sup> <b>Nogatz, T.</b>, et al. <i>(in preparation)</i> Introducing
+            Optical Flow to Materials Science &ndash; Foundations, Variations and Performance in In-Situ Materials Tests.
+        </footer>
+    </div>
+
+    <div id="TVL1-cont" class="step slide">
+        <div class="ribbon ribbon-top-left"><span>TVL1</span></div>
+
+        <h1 style="font-size: 1.9em;">TV Optical Flow Solved by Discretization <small>(cont.)</small></h1>
+
+        <div>Compute \(\ub^{k+1}\) by second alternating iteration:</div>
+
+        <div style="float: left; width: 52%; padding: 0 30px 0 60px; margin-top: -1em; font-size: 36px;">
+            <div style="padding: 40px 0;">Introduce second auxiliary variable \(\pb\) and solve by projection to unit balls:</div>
+            <div style="padding: 27px 0;">Compute inner update \(\ub^{k,i+1}\) by adjoint update:</div>
+            <div style="padding: 34px 0;">And perform intermediate update \(\ub^{k,i+1}\) by adjoint update:</div>
+        </div>
+        <div style="float: left; font-size: 36px;">
+            \begin{align}
+                \pb^{i+1} &= \frac{\pb^i + \sigma \nabla \bar \ub^{i}}{\max(1, \left|\pb^i + \sigma K \bar \ub^{i}\right|)} \\
+                \ub^{k+1, i+1} &= \frac{\ub^k-\tau \dvg\pb^k+ \db^k}{1+\tau\lambda} \\
+                \bar \ub^{i+1} &= \ub^{k, i+1}+ \theta(\ub^{k, i+1}-\ub^{k, })
+            \end{align}
+        </div>
+
+        <div class="substep" data-substep-order="1" style="clear: both;">
+            Compute \(\db^{k+1}\) by case distinction:
+        </div>
+        <div class="formula substep" data-substep-order="1" style="font-size: 32px; padding-top: 10px;">
+            \begin{equation}
+                \class{substep-2}{\db^{k+1}}  \class{substep-2}{=} \class{substep-2}{\ub^{k+1} +\begin{cases}\lambda\theta\nabla I_1\ &\text{if } \rho(\ub^{k+1}) &lt -\lambda \theta |\nabla I_1|^2 \\
+            -\lambda\theta\nabla I_1\ &\text{if } \rho(\ub^{k+1}) &gt \lambda \theta |\nabla I_1|^2 \\
+            -\rho(\ub)\nabla I_1/|\nabla I_1|^2\ &\text{if } |\rho(\ub^{k+1})| \leq \lambda \theta |\nabla I_1|^2
+            \end{cases}}
+            \end{equation}
+         </div>
+    </div>
+
+
+    <!-- Comparison TV: Start -->
+
+    <div id="Comparison-TV" class="step slide">
+        <h1>Comparison of Total Variation Based Methods</h1>
+
+        <div class="container" style="float: right; margin-left: 0; margin-top: -30px; background-image: url(images/comparison-tv/scale-u.png);">
+            <div class="formula">
+                \( u(x,y,z) \)
+            </div>
+            <div class="flex">
+                <div class="bg" style="background-image: url(images/comparison-tv/1.png);"><!-- Intentionally left blank --></div>
+                <div class="bg" style="background-image: url(images/comparison-tv/3DOFu.png);"><!-- Intentionally left blank --></div>
+                <div class="bg" style="background-image: url(images/comparison-tv/TVu.png);"><!-- Intentionally left blank --></div>
+                <div class="bg" style="background-image: url(images/comparison-tv/ALDVCu.png);"><!-- Intentionally left blank --></div>
+            </div>
+        </div>
+
+        <div class="container" style="clear: both; margin-left: 0; margin-top: 30px; background-image: url(images/comparison-tv/scale-v.png);">
+            <div class="formula">
+                \( v(x,y,z) \)
+            </div>
+            <div class="flex">
+                <div class="bg" style="background-image: url(images/comparison-tv/5.png);"><!-- Intentionally left blank --></div>
+                <div class="bg" style="background-image: url(images/comparison-tv/3DOFv.png);"><!-- Intentionally left blank --></div>
+                <div class="bg" style="background-image: url(images/comparison-tv/TVv.png);"><!-- Intentionally left blank --></div>
+                <div class="bg" style="background-image: url(images/comparison-tv/ALDVCv.png);"><!-- Intentionally left blank --></div>
+            </div>
+        </div>
+
+        <div class="container" style="float: right; margin-left: 0; margin-top: 30px; background-image: url(images/comparison-tv/scale-w.png);">
+            <div class="formula">
+                \( w(x,y,z) \)
+            </div>
+            <div class="flex">
+                <div class="bg" style="background-image: url(images/comparison-tv/9.png);"><!-- Intentionally left blank --></div>
+                <div class="bg" style="background-image: url(images/comparison-tv/3DOFw.png);"><!-- Intentionally left blank --></div>
+                <div class="bg" style="background-image: url(images/comparison-tv/TVw.png);"><!-- Intentionally left blank --></div>
+                <div class="bg" style="background-image: url(images/comparison-tv/ALDVCw.png);"><!-- Intentionally left blank --></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="Comparison-TV-u" class="step skip-progress" data-rel-x="463" data-rel-y="-250" data-rel-to="Comparison-TV" data-scale="0.5" data-transition-duration="1000">
+        <!-- Intentionally left blank -->
+    </div>
+
+    <div id="Comparison-TV-v" class="step skip-progress" data-rel-x="-925" data-rel-y="510" data-scale="0.5" data-transition-duration="1500">
+        <!-- Intentionally left blank -->
+    </div>
+
+    <div id="Comparison-TV-w" class="step skip-progress" data-rel-x="925" data-rel-y="0" data-scale="0.5" data-transition-duration="1500">
+        <!-- Intentionally left blank -->
+    </div>
+
+    <div id="Comparison-TV-reset" class="step skip-progress" data-rel-x="0" data-rel-y="0" data-rel-to="Comparison-TV" data-scale="1" data-transition-duration="1000">
+        <!-- Intentionally left blank -->
+    </div>
+
+    <!-- Comparison TV: End -->
+
+
+    <div id="Error-Estimates" class="step slide" data-x="0" data-y="4500">
+        <h1>Error<br>Estimates</h1>
+
+        <div class="abbr" style="margin-top: 30px; line-height: 185px;">
+            <b>R</b>oot <b>M</b>ean <b>S</b>quare <b>E</b>rror
+        </div>
+        <div class="formula">
+            \begin{equation}
+                \left(\frac{1}{N}\sum_x \left( I_1(\ux+\ub)-I_0(\ux)\right)^2\right)^{\frac{1}{2}}
+            \end{equation}
+        </div>
+
+        <div class="abbr" style="line-height: 185px;">
+            <b>A</b>verage <b>A</b>ngular <b>E</b>rror
+        </div>
+        <div class="formula">
+            \begin{equation}
+                \frac{1}{N} \sum_{\ux} \arccos\Big(
+                \frac{1 + \ub\cdot \ub_{GT}}{\sqrt{1+u^2+v^2+w^2}\sqrt{1+u_{GT}^2+v_{GT}^2+w_{GT}^2}}\Big)
+            \end{equation}
+        </div>
+
+        <div class="abbr" style="line-height: 170px;">
+            <b>A</b>verage <b>E</b>ndpoint <b>E</b>rror
+        </div>
+        <div class="formula">
+            \begin{equation}
+                \frac{1}{N} \sum_{\ux} \Big( \sqrt{(u-u_{GT})^2+(v-v_{GT})^2+(w-w_{GT})^2}\Big)
+            \end{equation}
+        </div>
+
+        <div class="substep" data-substep-order="1" style="margin-top: 40px; clear: both;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Measure</th>
+                        <th>3DOF</th>
+                        <th>TVL1</th>
+                        <th>Local DVC</th>
+                        <th>Global DVC</th>
+                        <th>ALDVC</th>
+                        <th>Elas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>RMSE</th>
+                        <td class="highlight">0.0876</td>
+                        <td class="highlight">0.0876</td>
+                        <td>0.1265</td>
+                        <td>0.1343</td>
+                        <td>0.1069</td>
+                        <td>0.115</td>
+                    </tr>
+                    <tr>
+                        <th>AAE</th>
+                        <td class="highlight">2.29°</td>
+                        <td>2.31°</td>
+                        <td>2.34°</td>
+                        <td>2.31°</td>
+                        <td>2.31°</td>
+                        <td>11.5°</td>
+                    </tr>
+                    <tr>
+                        <th>AEE</th>
+                        <td class="highlight">1.60</td>
+                        <td>2.13</td>
+                        <td>2.57</td>
+                        <td>1.99</td>
+                        <td>2.05</td>
+                        <td>5.42</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="Trip-Example" class="step slide" data-rel-x="2200" data-rel-y="0">
+        <h1 style="font-size: 1.85em;">In Situ Test of Metal Matrix Composite Foam</h1>
+
+        <div style="margin-left: 0; background-image: url(images/trip-example/triptest.gif); background-size: 125% auto;">
+            <div class="caption">
+                Trip Foam
+            </div>
+        </div>
+
+        <div class="substep" data-substep-order="1" style="background-image: url(images/trip-example/mag-vol-static.PNG); background-size: 109% auto;">
+            <div class="caption">
+                Displacement Magnitude
+            </div>
+        </div>
+        <div class="substep" data-substep-order="2" style="background-image: url(images/trip-example/tripSlice3DOF.png); background-size: 448px auto; margin-left: -30%;">
+            <div class="caption">
+                Displacement 3DOF<br>Slice View
+            </div>
+        </div>
+
+        <div class="substep" data-substep-order="3" style="background-image: url(images/trip-example/tripSliceALDVC.png); background-size: 90% auto;">
+            <div class="caption">
+                Displacement ALDVC<br>Slice View
+            </div>
+        </div>
+
+        <div class="substep" data-substep-order="4" style="background-image: url(images/trip-example/ROI_297.gif); background-size: 90% auto; position: absolute; left: -46px;">
+            <div class="caption">
+                Fracturing Cell
+            </div>
+        </div>
+    </div>
+	
+	<div id="Trip-Example-2" class="step slide">
+        <h2> Full Series of MMC Foam</h2>
+			<div style="width: 26%; height: 30%; float: left; margin-bottom: 6%; margin-left: 7%;">
+                <img src="images/trip-example-2/t0sl_297.png">
+                <div class="caption">
+                    Unloaded
+                </div>
+            </div>
+
+            <div style="width: 26%; height: 30%; float: left;margin-bottom: 6%; margin-left: 2%;">
+                <img src="images/trip-example-2/t2sl_297.png">
+                <div class="caption">
+                    2% compression
+                </div>
+            </div>
+
+            <div style="width: 26%; height: 30%; float: left;margin-bottom: 6%; margin-left: 2%;">
+                <img src="images/trip-example-2/t4sl_297.png">
+                <div class="caption">
+                    4% compression
+                </div>
+            </div>
+
+            <div style="width: 26%; height: 30%; float: left; margin-left: 7%; ">
+                <img src="images/trip-example-2/t6sl_297.png">
+                <div class="caption">
+                    6% compression
+                </div>
+            </div>
+
+            <div style="width: 26%; height: 30%; float: left; margin-left: 2%;">
+                <img src="images/trip-example-2/t10sl_297.png">
+                <div class="caption">
+                    10% compression
+                </div>
+            </div>
+
+            <div style="width: 26%; height: 30%; float: left; margin-left: 2%;">
+                <img src="images/trip-example-2/t20sl_297.png">
+                <div class="caption">
+                    20% compression
+                </div>
+            </div>
+
+	</div>
+	
+	<div id="Trip-disp-con" class="step slide">
+        <h2 style="float: left; width: 30%; text-align: left; margin-top: 70px;">Displacement<br>Field in \(w\)</h2>
+		
+        <div style="width: 30%; height: 30%; float: left; margin-bottom: 6%; margin-left: 5%;">
+            <img src="images/trip-disp-con/w02_origrange.png">
+            <div class="caption">
+                Displacement for 2% compression
+            </div>
+        </div>
+
+        <div style="width: 30%; height: 30%; float: left; margin-bottom: 6%; margin-left: 5%;">
+            <img src="images/trip-disp-con/w04_origrange.png">
+            <div class="caption">
+                Displacement for 4% compression
+            </div>
+        </div>
+
+        <div style="width: 30%; height: 30%; float: left; margin-left: 0; clear: left; margin-top: 100px;">
+            <img src="images/trip-disp-con/w06_origrange.png">
+            <div class="caption">
+                Displacement for 6% compression
+            </div>
+        </div>
+
+        <div style="width: 30%; height: 30%; float: left; margin-left: 5%; margin-top: 100px;">
+            <img src="images/trip-disp-con/w10_origrange.png">
+            <div class="caption">
+                Displacement for 10% compression
+            </div>
+        </div>
+
+        <div style="width: 30%; height: 30%; float: left; margin-left: 5%; margin-top: 100px;">
+            <div class="to-be-replaced">
+                <img src="images/trip-disp-con/w20_false_origrange.png">
+                <div class="caption">
+                    Displacement for 20% compression
+                </div>
+            </div>
+            <div class="replacement" style="margin-top: -370px;">
+                <img src="images/trip-disp-con/w20_origrange.png">
+                <div class="caption">
+                    Displacement for 20% compression (adjusted)
+                </div>
+            </div>
+        </div>
+	</div>
+
+    <div id="Image-Pyramids" class="step slide">
+        <h1 style="text-align: left; margin-left: 30px; margin-top: 20px;">Image Pyramids</h1>
+
+        <p style="font-style: italic; text-align: left; margin-left: 30px;">Updates will involve terms of the form \(I_1(\ux + \ub^{k+1})\)!</p>
+
+        <img src="images/concrete-2/Image_pyramid.svg" class="visualisation" style="width: 37%; float: left; margin-left: -25px; margin-top: 20px;">
+        <div style="position: absolute; transform: rotate(-90deg); left: -186px; top: 600px; font-size: 26px; color: #999;">
+            Cmglee, <a href="https://commons.wikimedia.org/wiki/File:Image_pyramid.svg" target="_blank">„Image pyramid“</a> (CC BY-SA 3.0)
+        </div>
+
+        <img src="images\image-pyramid\t0sl_297.png" class="substep" data-substep-order="1" style="top: 780px; left: 740px;">
+        <img src="images\image-pyramid\trip_1.png" class="substep" data-substep-order="1" style="top: 630px; left: 870px;">
+        <img src="images\image-pyramid\trip_2.png" class="substep" data-substep-order="1" style="top: 480px; left: 1000px;">
+        <img src="images\image-pyramid\trip_3.png" class="substep" data-substep-order="1" style="top: 330px; left: 1130px;">
+        <img src="images\image-pyramid\trip_4.png" class="substep" data-substep-order="1" style="top: 180px; left: 1260px;">
+        <img src="images\image-pyramid\trip_5.png" class="substep" data-substep-order="1" style="top: 30px; left: 1390px;">
+
+        <img src="images/image-pyramid/heatmap.png" class="substep visualisation" data-substep-order="2" style="position: absolute; width:590px; bottom: 30px; right: 30px;" />
+    </div>
+
+    <div id="Trip-disp-con-adjusted" class="step skip-progress" data-rel-x="0" data-rel-y="0" data-rel-to="Trip-disp-con" data-transition-duration="1000" data-progress-text="Adjusted">
+        <!-- Intentionally left blank -->
+    </div>
+
+	<div id="Ceramic-Example-1" class="step slide" data-rel-x="2200" data-rel-y="0" data-rel-to="Image-Pyramids" data-transition-duration="0">
+        <h1>Ceramic Foam &ndash; Compression Test</h1>
+			<div style="width: 30%; height: 50%; float: left; margin-top: 2%; margin-left: 3%;">
+                <img src="images/ceramic-example-1/figure_5a.png">
+                <div class="caption">
+                    Unloaded
+                </div>
+            </div>
+
+            <div style="width: 30%; height: 50%; float: left;margin-top: 2%; margin-left: 2%;">
+                <img src="images/ceramic-example-1/figure_5b.png">
+                <div class="caption">
+                    1%, xz-slice
+                </div>
+            </div>
+
+            <div style="width: 30%; height: 50%; float: left;margin-top: 2%; margin-left: 2%;">
+                <img src="images/ceramic-example-1/figure_5c.png">
+                <div class="caption">
+                    3.8%, xz-slice
+                </div>
+            </div>
+	</div>
+	
+	<div id="Ceramic-Example-Disp" class="step slide">
+        <h2> Ceramic Foam &ndash; Displacement Slice View 3.8%</h2>
+			<div style="width: 32%; height: 50%; float: left; margin-top: 6%; margin-left: 1.5%;">
+                <img style="width: 100%;" src="images/ceramic-example-1/figure_12a.png">
+                <div class="caption">
+                    \(u\) 
+                </div>
+            </div>
+
+            <div style="width: 32%; height: 50%; float: left;margin-top: 6%; margin-left: 0.5%;">
+                <img style="width: 100%;" src="images/ceramic-example-1/figure_12b.png">
+                <div class="caption">
+                    \(v\)
+                </div>
+            </div>
+
+            <div style="width: 32%; height: 30%; float: left;margin-top: 6%; margin-left: 0.5%;">
+                <img style="width: 100%;" src="images/ceramic-example-1/figure_12c.png">
+                <div class="caption">
+                    \(w\)
+                </div>
+            </div>
+	</div>
+	
+	<div id="Ceramic-Example-Error" class="step slide">
+        <h1>Ceramic Foam &ndash; Error Visualisation</h1>
+			<div style="width: 32%; height: 50%; float: left; margin-top: 2%; margin-left: 1.5%;">
+                <img style="width: 100%;" src="images/ceramic-example-1/figure_13d.png">
+                <div class="caption">
+                   Initial 
+                </div>
+            </div>
+
+            <div style="width: 32%; height: 50%; float: left;margin-top: 2%; margin-left: 0.5%;">
+                <img style="width: 100%;" src="images/ceramic-example-1/figure_13e.png">
+                <div class="caption">
+                    3DOF
+                </div>
+            </div>
+
+            <div style="width: 32%; height: 30%; float: left;margin-top: 2%; margin-left: 0.5%;">
+                <img style="width: 100%;" src="images/ceramic-example-1/figure_13f.png">
+                <div class="caption">
+                    ALDVC
+                </div>
+            </div>
+	</div>
+	
+    <div id="Concrete-1" class="step slide">
+        <h1>Large-Scale Concrete Samples</h1>
+
+        <div class="bg" style="width: 37%; height: 700px; float: left; margin-right: 110px; background-image: url(images/concrete-1/gulliver.png); background-size: contain; background-position: center 30px;">
+        </div>
+
+        <ul style="padding-top: 170px;">
+            <li>Possible specimen sizes:  \(6\times 1\times 0.7\) meters</li>
+            <li>Voxel size: \(50\mu\)m</li>
+            <li>Image size:  \(10\,000^2\times 2\,000\) voxel</li>
+        </ul>
+
+        <p class="ghost" style="position: relative; text-align: right; margin: 100px 100px;">10 &ndash; 30TB per image!</p>
+        <div class="substep" data-substep-order="1"><!-- Intentionally left blank --></div>
+    </div>
+
+    <div id="Concrete-2" class="step slide">
+        <h1>Coarse-to-Fine Strategy in Optical Flow</h1>
+
+        <p style="font-style: italic;">Taylor approximation is inevitable in Optical Flow!</p>
+
+        <img src="images/concrete-2/Image_pyramid.svg" class="visualisation" style="width: 37%; float: left; margin-left: -25px;">
+        <div style="position: absolute; transform: rotate(-90deg); left: -186px; top: 600px; font-size: 26px; color: #999;">
+            Cmglee, <a href="https://commons.wikimedia.org/wiki/File:Image_pyramid.svg" target="_blank">„Image pyramid“</a> (CC BY-SA 3.0)
+        </div>
+
+        <img src="images/concrete-2/gauss1.png" class="substep bigger" data-substep-order="1" style="top: 710px; left: 740px;">
+        <img src="images/concrete-2/gauss2.png" class="substep" data-substep-order="1" style="top: 646px; left: 880px;">
+        <img src="images/concrete-2/gauss3.png" class="substep" data-substep-order="1" style="top: 552px; left: 1010px;">
+        <img src="images/concrete-2/gauss4.png" class="substep" data-substep-order="1" style="top: 458px; left: 1140px;">
+        <img src="images/concrete-2/gauss5.png" class="substep bigger" data-substep-order="1" style="top: 344px; left: 1270px;">
+
+        <img src="images/concrete-2/gauss6.png" class="substep bigger" data-substep-order="2" style="top: 344px; left: 1550px;">
+    </div>
+
+    <div id="Morph-Wave" class="step slide">
+        <h1>Morphological Wavelets</h1>
+
+        <ul style="width: 57%; padding-left: 0; margin-left: -40px;">
+            <li>Use morphological transformations to proceed from one scale to the next</li>
+            <li>Can be counted to 2nd generation wavelets (pure space domain representation)</li>
+            <li>Preserve minima and maxima over all scales</li>
+            <li><em>But:</em> Not every downscaling step can be cast into cuboidal voxel setting</li>
+        </ul>
+
+        <img src="images/morph-wave/KDF1_z325_parula.png" class="substep bigger" data-substep-order="1" style="top: 710px; left: 950px;">
+        <img src="images/morph-wave/KDF1_z160_f3_ts.png" class="substep" data-substep-order="1" style="top: 620px; left: 1080px;">
+        <img src="images/morph-wave/KDF1_z80_f6_ts.png" class="substep" data-substep-order="1" style="top: 500px; left: 1210px;">
+        <img src="images/morph-wave/KDF1_z40_f9_ts.png" class="substep" data-substep-order="1" style="top: 380px; left: 1340px;">
+        <img src="images/morph-wave/KDF1_z20_f12_ts.png" class="substep bigger" data-substep-order="1" style="top: 240px; left: 1470px;">
+
+        <img src="images/morph-wave/claim.png" class="substep" data-substep-order="2" style="position: absolute; bottom: 40px; right: 40px; height: 250px; width: auto;">
+    </div>
+
+    <div id="Morph-Wave-2" class="step slide">
+        <h1 style="margin: 0 0 0.5em 0;">Motion Estimation with <br>Morphological Wavelet Pyramid</h1>
+
+        <img src="images/morph-wave-2/illustration.png" style="width: 100%; height: auto; margin-top: -50px;">
+    </div>
+	
+	<div id="Concrete-real-test" class="step slide">
+        <h2>Glass Fiber Reinforced Concrete</h2>
+			
+            <div style="width: 30%; height: 30%; float: left;margin-bottom: 6%; margin-left: 12%;">
+                <img src="images/concrete-real-test/gfk0_y228_full.png">
+                <div class="caption">
+                    Unloaded sample
+                </div>
+            </div>
+
+            <div style="width: 30%; height: 30%; float: left;margin-bottom: 6%; margin-left: 17%;">
+                <img src="images/concrete-real-test/gfk2_y228_full.png">
+                <div class="caption">
+                    First loading step
+                </div>
+            </div>
+
+            <div style="width: 30%; height: 30%; float: left; margin-left: 12%; ">
+                <img src="images/concrete-real-test/gfk4_y246_full.png">
+                <div class="caption">
+                    Second loading step
+                </div>
+            </div>
+
+            <div style="width: 30%; height: 30%; float: left; margin-left: 17%;">
+                <img src="images/concrete-real-test/w_y228_full.png">
+                <div class="caption">
+                    Displacement in z-direction to first loading step
+                </div>
+            </div>
+	</div>
+	
+	<div id="Concrete-real-test-2" class="step slide">
+        <h2>Glass Fiber Reinforced Concrete <small>(cont.)</small></h2>
+			
+            <div style="width: 30%; height: 30%; float: left;margin-bottom: 6%; margin-left: 12%;">
+                <img src="images/concrete-real-test/e33_y228_full.png">
+                <div class="caption">
+                    Strain from full resolution
+                </div>
+            </div>
+
+            <div style="width: 30%; height: 30%; float: left;margin-bottom: 6%; margin-left: 17%;">
+                <img src="images/concrete-real-test/e33_y228_ds1.png">
+                <div class="caption">
+                    Strain from downsampling factor 1
+                </div>
+            </div>
+
+            <div style="width: 30%; height: 30%; float: left; margin-left: 12%; ">
+                <img src="images/concrete-real-test/e33_y228_ds2.png">
+                <div class="caption">
+                    Strain from downsampling factor 2
+                </div>
+            </div>
+
+            <div style="width: 30%; height: 30%; float: left; margin-left: 17%;">
+                <img src="images/concrete-real-test/e33_y228_ds3.png">
+                <div class="caption">
+                   Strain from downsampling factor 3
+                </div>
+            </div>
+	</div>
+
+    <div id="Conclusion" class="step slide">
+        <div style="float: left; width: 55%;">
+            <h1>Conclusion</h1>
+            <ul>
+                <li>Identified requirements for motion estimation in in situ materials tests</li>
+                <li>Performed a thorough evaluation of state-of-the-art algorithms</li>
+                <li>Introduced optical flow to materials science for the first time</li>
+                <li>Showed its superior performance towards other methods</li>
+                <li>Introduced a method that is well-suited for large data sets</li>
+            </ul>
+        </div>
+
+        <div class="substep" data-substep-order="1" style="float: right; width: 45%;">
+            <h1>Future Work</h1>
+            <ul>
+                <li>Introduce learning-based approaches</li>
+                <li>Introduce TV-based FEM approaches</li>
+                <li>Investigate further suitable wavelet representations</li>
+            </ul>
+        </div>
+    </div>
+
+
+
+    <!--
+        ##################
+        #     Backup     #
+        ##################
+    -->
+
+    <div id="Overview" class="step backup" data-transition-duration="1000" data-x="7300" data-y="3800" data-scale="10" style="pointer-events: none;">
+        <!-- Intentionally left blank -->
+    </div>
+
+    <div id="Backup" class="step slide segue skip skip-progress" data-x="0" data-y="6000">
+        <aside class="gdbar">Mathematik</aside>
+        <aside class="gdbar right"><img src="images/TUK-Logo.svg"></aside>
+
+        <h1>Backup Slides</h1>
+    </div>
+
+    <div id="Reg-Proj" class="step slide backup" data-rel-x="2200" data-rel-y="0">
+        <h1>Regularization by Projection</h1>
+
+        <div style="width: 51%; float: left; margin-top: 2%;">
+            \(P\colon X\rightarrow U\subset X\) projection operator to \(U\) if
+        </div>
+        <div style="width: 45%; float: left; margin-top:-2%; margin-left:-4%; font-size: 90%;">
+        <ul>
+            <li>\(Px\in U\) for all \(x\in X\)</li>
+            <li>\(Px=x\) for all \(x\in U\)</li>
+        </div>
+        <div>
+            <em>Projection method</em> to solve \(Tx=y\)
+        </div>
+        <div style="text-align: center;">
+            Choose projection \(Q_n\) and solve \(Q_nTx_n=Q_ny\) for \(x_n\in X_n\subset X\).
+        </div>
+        <div style="margin-top: 2%;">
+            Eventually solve linear system because
+        </div>
+        <div style="font-size: 90%; margin-top: -1%;">
+            \begin{equation}
+                Q_n y = \sum_{i=1}^N \beta_i \hat y_i,\text{ and } \hspace{0.2cm} Q_nT\hat x_j = \sum_{i=1}^n A_{ij} \hat{y_i}, \hspace{0.2cm} \text{ and } \hspace{0.2cm} x_n = \sum_{j=1}^n \alpha_j \hat x_j \hspace{0.3cm} j = 1,\ldots, n.
+            \end{equation}
+        </div>
+        <div>
+            And therefore \( \sum_{j=1}^N A_{ij}\alpha_j = \beta_i \), or as matrix notation \( A\alpha = \beta \).
+        </div>
+    </div>
+
+    <div id="Reg-Hilbert" class="step slide backup">
+        <h1 style="font-size: 1.7em;">Convergence of a Regularization &ndash; Hilbert Spaces</h1>
+
+        <div>
+            \(\Reg_\alpha\) is called a regularization if (amongst other conditions)
+        </div>
+        <div>
+            \begin{equation}
+                \lim_{\delta\rightarrow 0} ||\Reg_\alpha y^\delta - T^\dagger y|| = 0
+            \end{equation}
+        </div>
+        <div>
+            Example (Tikhonov): \(\Reg_\alpha = (T^*T+\alpha_*\mathbb{I})^{-1}T^*\) and \(\pazocal{R}_{\alpha(\delta)}y^\delta\rightarrow T^\dagger y\) as \(\delta\rightarrow 0\)
+        </div>
+         <div style="margin-top: 2%;">
+            <em>Proposition:</em> If \(x_*^\delta\) is the solution of  \((T^*T+\alpha_*\mathbb{I})x_*^\delta = T^* y^\delta\), it is also the solution of \begin{equation} \min_x ||Tx-y^\delta|| + \alpha_*||x||^2\end{equation}
+        </div>
+    </div>
+
+     <div id="Reg-Banach" class="step slide backup">
+        <h1 style="font-size: 1.7em;">Convergence of a Regularization &ndash; Banach Spaces</h1>
+
+        <div>
+            Most obvious problem in Banach spaces: We lose convergence to \(T^\dagger\)
+        </div>
+        <div style="width: 28%; float: left; margin-top:3.2%;">
+            Regularize \(F(v) = y\) by
+        </div>
+        <div style="width: 70%; float:left; margin-top: -3%; margin-left: -1%;">
+            \begin{equation}
+                    \min_v J (v),\zpftext{where} J(v)=\Dist(v, y^\delta) + \alpha\Reg(v)
+            \end{equation}
+        </div>
+        <div>
+            <ol>
+                <li>
+                    <em>Existence:</em>
+                    \(J(v)\) has to admit a solution for every \(\alpha>0\) and every \(y\in Y\).
+                </li>
+                <li>
+                    <em>Stability:</em>
+                    The noisy input data \(v^\delta\) depends continuously on the solution \(u_\alpha^\delta\) to the noisy equation.
+                </li>
+                <li>
+                    <em>Convergence:</em>
+                    For \(\alpha\rightarrow 0\) and \(v^\delta\rightarrow v\), the noisy solution \(u_\alpha^\delta\) should converge to the true solution \(u\).
+                </li>
+            </ol>
+        </div>
+        <div style="margin-top: 2%">
+            <em>Idea:</em> Instead of using means from (compact) linear operator equations, use calculus of variations to show the above conditions.
+        </div>
+    </div>
+
+    <div id="Min-Banach" class="step slide backup" style="font-size: 38px;">
+        <h1 style="font-size: 1.9em;">Minima of Functionals in Banach Spaces &ndash; General</h1>
+
+        <div>
+            To show that a functional \(J\colon u\rightarrow \R\) admits a minimum, one can use the <em>direct method of calculus of variations</em>. It consists of three steps:
+            <ol style="padding-left: 35px;">
+                <li>One constructs a <em>minimizing sequence</em> \(v_n\in U\), i.e. a sequence satisfying \(\lim_{n\rightarrow\infty} J(v_n) = \inf_{v\in U} J(v)\).</li>
+                <li>If \(J\) is <em>coercive</em>, so if \(\lim_{||v||\rightarrow\infty} J(v) = +\infty\), one can obtain a uniform bound \(|v_n|_U\leq C\). If \(U\) is reflexive, we can deduce the existence of \(v_0\in U\) and of a weakly convergent subsequence \(v_{n_j}\), i.e. such that  \(v_{n_j}\xrightharpoonup[U]{ }v_0\).</li>
+                <li>If the inequality \(\lim_{v_{n_j}\xrightharpoonup[U]{ }v_0} J(v_{n_j}) \geq J(v_0)\) holds, we deduce that \(v_0\) is a minimizer and that \(J(v_0) = \inf_{v\in U} J(v)\).</li>
+            </ol>
+        </div>
+
+        <div class="notes">
+            <ol>
+                <li>Exists as soon as we can show boundedness from below (boundedness, convexity)</li>
+                <li>Deduce that bounded seq has conv subsequence. Needs reflexive or separable spaces, or weak* topology (conv reg. duals)</li>
+                <li>needs lower seq. semi continuity</li>
+            </ol>
+        </div>
+    </div>
+
+    <div id="Min-Reg" class="step slide backup">
+        <h1 style="font-size: 1.48em;">Minima of Functionals in Banach Spaces &ndash; Regularization</h1>
+
+        <div style="font-size: 36px;">
+        Solve \(F(v) = y\) by \(\min_v \Dist(v, y^\delta)+\alpha \Reg(v)\)
+            <ol style="padding: 0;">
+                <li>The Banach spaces \(U\) and \(Y\) are associated with topologies \(\tau_U\) and \(\tau_Y\) that are weaker than the norm topologies.</li>
+                <li>\(\Dist\) is given by \(||\cdot||_U^p\) with \(p\geq 1\).</li>
+                <li>\(||\cdot||_Y\) is sequentially lower semi-continuous with respect to \(\tau_Y\).</li>
+                <li>\(\colra{\Reg}{U}{[0, \infty]}\) is convex and sequentially lower semi-continuous with respect to \(\tau_U\).</li>
+                <li>\(\mathcal{D}(F)\cap\mathcal{D}(\Reg)\neq \emptyset\).</li>
+                <li>For every \(\alpha> 0\), \(M>0\) the level sets \(\pazocal{M}_\alpha(M)\coloneqq\{v\in U \;\big|\, J(v)\leq M\}\) are sequentially pre-compact with respect to \(\tau_U\).</li>
+            </ol>
+        </div>
+        <div style="font-size: 36px;">
+            <div style="float: left; height: 200px; margin-right: 100px;">
+                Then \(||F(v)-y^\delta||^p_V + \alpha \Reg(v)\)
+            </div>
+            <ul>
+                <li>Has a minimizer</li>
+                <li>Is stable (\(y^\delta\) depends continuously on \(u_\alpha^\delta\)</li>
+                <li>Converges (for \(\alpha\rightarrow 0\), \(y^\delta\rightarrow y\) it follows \(u_\alpha^\delta\).</li>
+            </ul>
+        </div>
+
+        <div class="notes">
+            <ol>
+                <li>Strong topology, i.e. norm topology is often too restrictive. One needs to level out: weak topology has more convergent series but lsc has to be satisfied for more functions.<br>
+                strong: norm convergence<br>
+                weak: convergence of (all) duals (linear maps)<br>
+                weak': convergence of all functionals for a dual</li>
+                <li>p=1 already strong limitation</li>
+                <li>needed to deduce minimizer in step 3 of direct method</li>
+                <li>needed to deduce minimizer in step 3 of direct method</li>
+                <li>We better find an object that can be measured by both parts of regularization</li>
+                <li>basically set of admissible solutions such that we find an object of interesst in there</li>
+            </ol>
+        </div>
+    </div>
+
+    <div id="TVFlow-back" class="step slide backup">
+        <h1>Convergence of Discrete TV</h1>
+
+        <div style="font-size: 41px;">
+            <div>
+                <em>Definition:</em> Let \((J_k)\) be a sequence of functionals on a metric space \(U\). If there exists a functional \(J\) on \(U\) such that
+            </div>
+            <ul style="margin-top: -64px; margin-left: 130px;">
+                <li>
+                    for all sequences \((u_k)\rightarrow u\) one has \(\liminf_k J_k(u_k)\geq J(u)\),
+                </li>
+                <li>
+                    for each \(u\) there exists a sequence \((u_k)\rightarrow u\) such that \(\limsup_k J_k(u_k)\leq J(u)\),
+                </li>
+            </ul>
+            <div>
+            then \((J_k)\) is said to \(\Gamma\)-converge to the \(\Gamma\)-limit \(J\), denoted by
+            \begin{equation*}
+                J = \Gamma-\lim_k J_k.
+            \end{equation*}
+
+            Correct approximation of TV
+            Approximate \(\ub = (u, v, w)\)  by \(\ub_h = (u_h, v_h, w_h)\) via<br>
+                \( \ub_h(\ux) = \sum_{i=1, j=1, k=1}^{N, M, L} \ub_{ijk} \phi_{\ub}(\ux)\),&nbsp;&nbsp;&nbsp;
+                \( TV_h(\ub) = TV_h(u) + TV_h(v) + TV_h(w) \), and&nbsp;&nbsp;&nbsp;
+                \( TV_h(u_h) = h\sum_{i,j,k} \sqrt{|u_{i+1,j,k}-u_{i,j,k}|^2+|u_{i,j+1,k}-u_{i,j,k}|^2+|u_{i,j,k+1}-u_{i,j,k}|^2} \)
+            </div>
+        </div>
+    </div>
+
+    <div id="Uncertainty" class="step slide backup">
+        <h1 style="margin: 0.2em 0;">Uncertainty Quantification</h1>
+
+        <div style="font-size: 32px;">
+            <div>In DVC usually two methods of uncertainty quantification are employed
+                <ol>
+                    <li><em>bis</em>: Two consecutive scans without any motion are performed.</li>
+                    <li><em>rbm</em>: Two consecutive scans with rigid body motion are performed.</li>
+                 </ol>
+            </div>
+            <div>In 3DOF: Perform maximum resolution test. Use
+                <ol>
+                    <li>Use synthetical displacement and increase stepwise maximal displacement</li>
+                    <li>Use simulated displacement and increase stepwise maximal displacement</li>
+                </ol>
+            </div>
+
+            <!-- Note: Style set in CSS -->
+            <div>
+                <img src="images/uncertainty/RSME_Foam_new.png">
+                <div class="caption">
+                    RSME Foam
+                </div>
+            </div>
+
+            <div>
+                <img src="images/uncertainty/AAE_Foam_new.png">
+                <div class="caption">
+                    AAE Foam
+                </div>
+            </div>
+
+            <div>
+                <img src="images/uncertainty/AEE_Foam_new.png">
+                <div class="caption">
+                    AEE Foam
+                </div>
+            </div>
+
+            <div>
+                <img src="images/uncertainty/heatmap.PNG">
+                <div class="caption">
+                    Heatmap
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="Uncertainty-Revit" class="step slide backup">
+        <h1 style="font-size: 1.7em; margin: 0.2em 0;">Uncertainty Quantification &ndash; Simulated Test Data</h1>
+
+        <!-- Note: Style set in CSS -->
+        <div style="font-size: 32px; width: 62%; float: left;">
+            <img src="images/uncertainty/revit_w_GT.png" style="width: 100%;">
+            <div>
+                \(w\) displacement ground truth
+            </div>
+
+            <img src="images/uncertainty/revit_w_3DOF.png" style="width: 100%;">
+            <div>
+                 \(w\) displacement 3DOF
+            </div>
+
+            <img src="images/uncertainty/revit_TV_w.png" style="width: 100%;">
+            <div>
+                \(w\) displacement TVL1
+            </div>
+
+            <img src="images/uncertainty/revit_aldvc_w.png" style="width: 100%;">
+            <div>
+                \(w\) displacement ALDVC
+            </div>
+        </div>
+        <div style="font-size: 32px; float: left; width: 27%; margin-left: 6%;">
+            <div>
+                <img src="images/uncertainty/RSME_Revit_all.png" style="width: 100%;">
+                <div class="caption">
+                    RSME Foam
+                </div>
+            </div>
+
+            <div style="margin-top: 2%;">
+                <img src="images/uncertainty/AAE_Revit_all.png" style="width: 100%;">
+                <div class="caption">
+                    AAE Foam
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="Add-Info-Perf" class="step slide backup">
+        <h1>Additional Performance Information</h1>
+
+        <div style="font-size: 32px;">
+            <div style="width: 49%; float: left;">
+                <img src="images/add-perf/comp-time.PNG" style="width: 100%;">
+                <div class="caption">
+                    Calculation Time
+                </div>
+            </div>
+            <div style="width: 49%; float: left;">
+                <img src="images/add-perf/lambda.PNG" style="width: 100%;">
+                <div class="caption">
+                    Improvement in Residual by Gradient Term in 3DOF
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="Lifted-wave-back" class="step slide backup">
+        <h1 style="margin: 0.2em 0;">The Lifting Scheme</h1>
+
+        <ol style="font-size: 38px;">
+            <li>Split the signal into subbands by invertible transformation \(\Sigma\). For the sake of simplicity, we use \(2\) subbands. We have
+            \begin{equation*}
+                (\evn_{-1,k}, \odd_{-1, k}) = \Sigma(\lambda_{0,k}).
+            \end{equation*}</li>
+            <li>Predict the wavelet coefficient (also called <em>detail signal</em>) by \(\odd_{-1,k}\). We have
+            \begin{equation*}
+                \gamma_{-1, k} = \odd_{-1, k} - P(\evn_{-1,k}),
+            \end{equation*}
+            where \(P\) is an (invertible) prediction operator.</li>
+            <li>Update the signal approximation \(\lambda_{-1,k}\) by the previously predicted wavelet coefficients
+            \begin{equation*}
+                \lambda_{-1,k} = \evn_{-1,k} + U(\gamma_{-1, k}),
+            \end{equation*}
+            with update operator \(U\).</li>
+        </ol>
+    </div>
+
+    <div id="Morph-wave-back-1" class="step slide backup">
+        <h1>Wavelet<br>Comparison</h1>
+        <img src="images/arrow-left.png" style="width: 270px; height: auto; position: absolute; left: 1200px;">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Morph</th>
+                    <th>Haar</th>
+                    <th>DB4</th>
+                    <th>Bior2.2</th>
+                    <th style="width: 60px;"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><img src="images/wavelet-backup-1/wavelets/morph/KDF1_z160_f3_ts.png"></td>
+                    <td><img src="images/wavelet-backup-1/wavelets/haar/KDF1_haar1.png"></td>
+                    <td><img src="images/wavelet-backup-1/wavelets/db4/KDF1_db4.png"></td>
+                    <td><img src="images/wavelet-backup-1/wavelets/bior/bior1.png"></td>
+                    <th>1</th>
+                </tr>
+                <tr>
+                    <td><img src="images/wavelet-backup-1/wavelets/morph/KDF1_z80_f6_ts.png"></td>
+                    <td><img src="images/wavelet-backup-1/wavelets/haar/KDF1_haar2.png"></td>
+                    <td><img src="images/wavelet-backup-1/wavelets/db4/KDF1_db4_2.png"></td>
+                    <td><img src="images/wavelet-backup-1/wavelets/bior/bior2.png"></td>
+                    <th>2</th>
+                </tr>
+                <tr>
+                    <td><img src="images/wavelet-backup-1/wavelets/morph/KDF1_z40_f9_ts.png"></td>
+                    <td><img src="images/wavelet-backup-1/wavelets/haar/KDF1_haar3.png"></td>
+                    <td><img src="images/wavelet-backup-1/wavelets/db4/KDF1_db4_3.png"></td>
+                    <td><img src="images/wavelet-backup-1/wavelets/bior/bior3.png"></td>
+                    <th>3</th>
+                </tr>
+            </tbody>
+        </table>
+
+        <img src="images/stage.png" style="width: 360px; height: auto; position: absolute; left: 1290px; top: 765px;">
+    </div>
+
+    <div id="Morph-wave-back-2" class="step slide backup">
+        <h1 style="font-size: 1.9em; margin: 0;">Motion Estimation with Different Wavelets</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>3DOF</th>
+                    <th>DB4</th>
+                    <th>3DMorph reduced</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>\( u \)</th>
+                    <td><img src="images/morph-wave-back-2/u3DOFfull.png"></td>
+                    <td><img src="images/morph-wave-back-2/udb4_2.png"></td>
+                    <td><img src="images/morph-wave-back-2/u12b6.png"></td>
+                </tr>
+                <tr>
+                    <th>\( v \)</th>
+                    <td><img src="images/morph-wave-back-2/v3DOFfull.png"></td>
+                    <td><img src="images/morph-wave-back-2/vdb4_2.png"></td>
+                    <td><img src="images/morph-wave-back-2/v12b6.png"></td>
+                </tr>
+                <tr>
+                    <th>Residual</th>
+                    <td><img src="images/morph-wave-back-2/resfull.png"></td>
+                    <td><img src="images/morph-wave-back-2/resdb.png"></td>
+                    <td><img src="images/morph-wave-back-2/res3dmorph.png"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="TVL1-back" class="step slide backup">
+        <h3>TV Optical Flow Solved by Discretization &ndash; Derivation</h3>
+
+         <div style="width: 50%; float: left; font-size: 70%;">
+            \begin{equation*}
+                \ub^{k+1} = \min_{\ub} \int_\Omega |\nabla \ub| + \frac{1}{2\theta} ||\ub-\db^k||_2^2 \dx
+            \end{equation*}
+        </div>
+
+        <div style="width: 50%; float: left; font-size: 70%;">
+            \begin{equation*}
+                    \min_{\ub\in U} ||\nabla \ub||_{2,1} + \frac{1}{2\theta}||\ub-\db^k||_2^2
+            \end{equation*}
+        </div>
+
+
+
+
+        <div style="width: 60%; float: left; font-size: 60%;">
+            \begin{equation*}
+                F(\cdot) = ||\cdot||_{2,1},  \hspace{0.7cm} K=\nabla, \zpftext{and} G(\ub) =  \frac{1}{2\theta}||\ub-\db^k||_2^2.
+            \end{equation*}
+        </div>
+
+         <div style="width: 40%; float: left; font-size: 60%">
+            $$||\pb||_{2,1} = \sum_{i,j,k} \sqrt{(p^x_{i,j,k})^2+(p^y_{i,j,k})^2+(p^z_{i,j,k})^2}$$
+        </div>
+
+        <div style="float: center; font-size: 60%">
+            $$F^*(\pb) = \sup_\ub \langle \ub, \pb \rangle - F(\ub)$$
+        </div>
+
+        <div style="width: 100%; float: left; font-size: 70%;">
+            \begin{equation*}
+                \min_\ub F(K\ub) + G(\ub) = \min_\ub\sup_\pb \langle \pb, K\ub\rangle -F^*(\pb)+G(\ub).
+            \end{equation*}
+        </div>
+		
+		<div style="width: 100%; float: left; font-size: 60%; margin-top: -2%;">
+		\begin{align*}
+			0 &\in \partial G(\ub) + K^*\pb^*, \\
+			0 &\in \partial F^*(\pb^*) - K\ub
+		\end{align*}
+		</div>
+
+        <div style="width: 100%; float: left; font-size: 60%; margin-top: -2%;">
+            \begin{align*}
+                \pb^{k+1} &= \prox_{\sigma F^*} (\pb^k + \sigma K \bar \ub^k) \\
+                \ub^{k+1} &= \prox_{\tau G}(\ub^k-\tau K^*\pb^k) \\
+                \bar \ub^{k+1}&= \ub^{k+1}+ \theta(\ub^{k+1}-\ub^k).
+            \end{align*}
+        </div>
+
+        <div class="notes">
+            <ol>
+                <li>Subdifferential not bold, because componentwise result</li>
+                <li>Use subgradient to deduce resolvent representation</li>
+                <li>(id  + tau partial F)^-1 = prox_tF(x)</li>
+                <li></li>
+                <li></li>
+            </ol>
+        </div>
+    </div>
+	
+	<div id="Control-PDE" class="step slide backup">
+        <h2> Optimal Control of PDEs</h2>
+		<div style="width: 50%; float:left; margin-left: -1%; font-size: 60%;">
+			Optimal Control Problem
+            \begin{align*}
+				\min_{y,u}\;&\, J(y, u) \\
+				\text{s.t.} u&\in U_{\text{ad}} \\
+				\text{and }Ay &= Bu
+			\end{align*}
+        </div>
+		
+
+		<div style="width: 50%; float:left; margin-left: -1%; font-size: 60%;">
+			Consider adjoint state \(\bar p\) as solution to adjoint equation
+            \begin{equation*}
+				A^T \bar{p} = \nabla_y J(\bar y, \bar u),
+			\end{equation*} 
+        </div>
+		
+		<div style="width: 50%; float:left; margin-left: -1%; font-size: 60%;">
+			Define Lagrange function
+            \begin{equation*}
+			L(y, u, p) \coloneqq J(y,u) - \langle Ay-Bu, p \rangle.			\end{equation*} 
+        </div>
+		
+		<div style="width: 50%; float:left; margin-left: -1%; font-size: 60%;">
+			Solve reduced problem
+            \begin{equation*}
+				J(y,u) = J(A^{-1}Bu, u) \eqqcolon f(u).
+			\end{equation*} 
+        </div>
+		
+		<div style="width: 50%; float:left; margin-left: -1%; font-size: 60%;">
+			And have necessary conditions for a minimizer (KKT)
+            \begin{align*}
+				&\nabla_y L(\bar y, \bar u, \bar p, \mu_a, \mu_n) = 0 \\
+				&\nabla_u L(\bar y, \bar u, \bar p, \mu_a, \mu_n) = 0 \\
+				&\mu_a \geq 0, \hspace{0.5cm} \mu_b \geq 0 \\
+				&\langle u_a-\bar u, \mu_a\rangle = \langle \bar u- u_b, \mu_b\rangle = 0.
+			\end{align*}
+        </div>
+	</div>
+</div>
+
+<div id="impress-toolbar"></div>
+
+<div class="impress-progressbar"><div></div></div>
+<div class="impress-progress"></div>
+
+<div id="impress-help"></div>
+
+<script type="text/javascript" src="js/impress.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+
+</body>
+</html>
