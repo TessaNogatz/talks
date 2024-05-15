@@ -1,0 +1,2032 @@
+/*
+  A common approach is to use googleapis.com to generate css for the webfonts you want to use.
+  The downside of this approach is that you have to be online. So below I have simply saved
+  the output of the googleapis url into a file. Then you of course also have to make sure
+  the webfonts are locally installed to make offline usage work. For Ubuntu (or Debian) I
+  successfully used the script from here to do that:
+  http://www.webupd8.org/2011/01/automatically-install-all-google-web.html
+*/
+
+/* @import url(https://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic|Cutive+Mono); */
+@import url(fonts.css);
+
+/*
+    We display a fallback message for users with browsers that don't support
+    all the features required by it. All of the content will be still fully
+    accessible for them, but some more advanced effects would be missing.
+    When impress.js detects that browser supports all necessary CSS3 features,
+    the fallback-message style is hidden.
+*/
+
+.fallback-message {
+    font-family: sans-serif;
+    line-height: 1.3;
+
+    width: 780px;
+    padding: 10px 10px 0;
+    margin: 20px auto;
+
+    border: 1px solid #E4C652;
+    border-radius: 10px;
+    background: #EEDC94;
+}
+
+.fallback-message p {
+    margin-bottom: 10px;
+}
+
+.impress-supported .fallback-message {
+    display: none;
+}
+
+
+@font-face {
+    font-family: Red Hat;
+    src: url("../fonts/static/RedHatText-Regular.ttf");
+}
+
+/*
+  The body background is the bacgkround of "everything". Many
+  impress.js tools call it the "surface". It could also be a
+  picture or pattern, but we leave it as light gray.
+*/
+
+body {
+    font-family: 'PT Sans', sans-serif;
+    min-height: 740px;
+	
+    background: rgba(0, 107, 107, 0.1);
+    color: rgb(70, 70, 70);
+}
+
+/*
+    Now let's style the presentation steps.
+*/
+
+.step {
+    position: relative;
+    width: 1800px;
+    padding: 60px;
+    margin: 60px auto;
+
+    box-sizing:         border-box;
+
+    font-family: 'PT Serif', georgia, serif;
+    font-size: 60px;
+    line-height: 1.5;
+}
+/*
+    Make inactive steps a little bit transparent.
+*/
+.impress-enabled .step {
+    margin: 0;
+    opacity: 0.3;
+    transition:         opacity 1s;
+}
+
+.impress-enabled .step.active { opacity: 1 }
+
+/*
+    These 'slide' step styles were heavily inspired by HTML5 Slides:
+    http://html5slides.googlecode.com/svn/trunk/styles.css
+
+    Note that we also use a background image, again just to facilitate a common
+    feature from PowerPoint and LibreOffice worlds. In this case the background
+    image is just the impress.js favicon - as if it were a company logo or something.
+
+*/
+.slide {
+    display: block;
+
+    width: 1850px;
+    height: 1000px;
+    padding: 40px 60px;
+
+    background-image: url(../images/background.png);
+    background-color: white;
+    border: 2px solid rgba(0, 0, 0, .3);
+    border-radius: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, .1);
+
+    text-shadow: 0 3px 3px rgba(0, 0, 0, .2);
+
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-size: 45px;
+    letter-spacing: -2px;
+}
+
+
+.slide h1,
+.slide h2,
+.slide h3 {
+    margin-bottom: 0.5em;
+    margin-top: 0.5em;
+    text-align: center;
+}
+
+.slide p {
+    text-align: center;
+    margin: 0.7em;
+}
+
+.slide li {
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+    margin-left: 3em;
+    margin-right: 3em;
+}
+
+/* Highlight.js used for coloring pre > code blocks. */
+.slide pre > code {
+    font-size: 30px;
+    text-shadow: 0 0 0 rgba(0, 0, 0, 0);
+}
+
+.slide input {
+    font-size: 1em;
+}
+
+/* Inline code, no Highlight.js */
+code {
+    font-family: "Cutive mono","Courier New", monospace;
+}
+
+
+a {
+    color: inherit;
+    text-decoration: none;
+    padding: 0 0.1em;
+    background: rgba(200,200,200,0.2);
+    text-shadow: -2px 2px 4px rgba(100,100,100,0.9);
+    border-radius: 0.2em;
+    border-bottom: 3px solid rgba(100,100,100,0.2);
+    border-left:   3px solid rgba(100,100,100,0.2);
+
+    transition:         0.5s;
+}
+a:hover,
+a:focus {
+    background: rgba(200,200,200,1);
+    text-shadow: -2px 2px 3px rgba(100,100,100,0.5);
+}
+
+blockquote {
+    font-family: 'PT Serif';
+    font-style: italic;
+    font-weight: 400;
+}
+
+em {
+    text-shadow: 0 6px 6px rgba(0, 0, 0, .3);
+}
+
+strong {
+    text-shadow: -3px 3px 6px rgba(100,100,100,0.5);
+}
+
+q {
+    font-family: 'PT Serif';
+    font-style: italic;
+    font-weight: 400;
+    text-shadow: 0 6px 6px rgba(0, 0, 0, .3);
+}
+
+strike {
+    opacity: 0.7;
+}
+
+small {
+    font-size: 0.4em;
+}
+
+img {
+    width: 600px
+}
+
+td {
+    padding: 0.2em;
+}
+
+.slide .right {
+    float: right;
+    margin-left:  60px;
+    margin-right:   0px;
+    margin-top:    40px;
+    margin-bottom: 40px;
+}
+.slide .left {
+    float: left;
+    margin-right: 60px;
+    margin-left:    0px;
+    margin-top:    40px;
+    margin-bottom: 40px;
+}
+.slide .top {
+    position: absolute;
+    top: 40px;
+    margin-bottom:  40px;
+    margin-top:      0px;
+}
+.slide .bottom {
+    position: absolute;
+    bottom: 40px;
+    margin-bottom:   0px;
+    margin-top:     40px;
+}
+
+/*
+    Specific styles for: .title slides
+*/
+
+.title {
+    background-image: url(../images/background-title.png);
+}
+
+.title h1,
+.title h2,
+.title h3 {
+    position: absolute;
+    left: 90px; /* slide width is 1800px, so this is like a 5% margin on both sides */
+    width: 90%;
+    text-align: center;
+}
+.title h1 { top: 50px; }
+.title h2 { top: 600px; }
+.title h3 { top: 800px; }
+
+
+
+/* Styles for animating the contents of a slide, such as a img, p, li or span element. ********/
+
+/*
+ fly-in class starts from a position outside the slide, then flies into it's correct position.
+*/
+.future .fly-in {
+    transform: translateY(-2100px);
+    opacity: 0.0; /* Make it invisible, just so it doesn't clutter some other slide that might be in the position where we moved it */
+}
+.present .fly-in {
+    transform:         translateY(0px);
+    opacity: 1.0;
+    transition:         2s;
+}
+.past .fly-out {
+    transform:         translateY(2100px);
+    opacity: 0.0;
+    transition:         2s;
+}
+
+/*
+   Fade-in/out is a straightforward fade. Give it enough seconds that all browsers render it clearly.
+*/
+.future .fade-in {
+    opacity: 0.0;
+}
+.present .fade-in {
+    opacity: 1.0;
+    transition: 3s;
+}
+.past .fade-out {
+    opacity: 0.0;
+    transition: 3s;
+}
+/*
+    Zoom-in.
+*/
+.future  .zoom-in {
+    transform:        scale(10);
+    opacity: 0.0;
+}
+.present .zoom-in {
+    transform:         scale(1);
+    opacity: 1.0;
+    transition: 3s;
+}
+.past  .zoom-out {
+    transform:        scale(10);
+    opacity: 0.0;
+}
+
+/*
+    Styles for specific slides.
+*/
+
+/* The bar graph for Acme Inc profits */
+
+#acme-graph-bottom {
+    position: absolute;
+    bottom: 100px;
+    right: 200px;
+    background-color: black;
+    width: 900px;
+    height: 3px;
+}
+
+/* height: is set from javascript */
+#acme-graph-q1,
+#acme-graph-q2,
+#acme-graph-q3,
+#acme-graph-q4 {
+    border: solid 1px black;
+    width: 140px;
+    margin-left: 30px;
+    position: absolute;
+    bottom: 100px;
+}
+
+#acme-graph-q1 {
+    background-color: red;
+    right: 900px;
+}
+
+#acme-graph-q2 {
+    background-color: blue;
+    right: 700px;
+}
+
+#acme-graph-q3 {
+    background-color: green;
+    right: 500px;
+}
+
+#acme-graph-q4 {
+    background-color: purple;
+    left: 750px;
+    right: 300px;
+}
+
+/*
+    And as the last thing there is a workaround for quite strange bug.
+    It happens a lot in Chrome. I don't remember if I've seen it in Firefox.
+
+    Sometimes the element positioned in 3D (especially when it's moved back
+    along Z axis) is not clickable, because it falls 'behind' the <body>
+    element.
+
+    To prevent this, I decided to make <body> non clickable by setting
+    pointer-events property to `none` value.
+    Value if this property is inherited, so to make everything else clickable
+    I bring it back on the #impress element.
+
+    If you want to know more about `pointer-events` here are some docs:
+    https://developer.mozilla.org/en/CSS/pointer-events
+
+    There is one very important thing to notice about this workaround - it makes
+    everything 'unclickable' except what's in #impress element.
+
+    So use it wisely ... or don't use at all.
+*/
+.impress-enabled                          { pointer-events: none }
+.impress-enabled #impress                 { pointer-events: auto }
+.impress-enabled #impress-toolbar         { pointer-events: auto }
+.impress-enabled #impress-console-button  { pointer-events: auto }
+
+.impress-enabled .impress-progressbar {
+    bottom: 11px;
+    left: 190px;
+}
+.impress-progressbar div {
+    height: 6px;
+}
+.impress-enabled .impress-progress {
+    font-size: 20px;
+    font-weight: bold;
+    width: 125px;
+    text-align: center;
+    border-radius: 8px 8px 0 0;
+    background: #d7d7d7;
+    opacity: 1.0;
+    line-height: 32px;
+}
+
+.impress-console.preView .impress-progress,
+.impress-console.preView .impress-progressbar,
+.impress-console.preView #impress-toolbar {
+  display: none;
+}
+
+.impress-console.slideView #impress .step:not(.future) .substep:not(.substep-visible) {
+  opacity: 1.0;
+  position: relative;
+}
+.impress-console.slideView #impress .step:not(.future) .substep:not(.substep-visible):before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  content: "";
+  border: 5px solid red;
+}
+.impress-console.slideView #impress .step:not(.future) .substep:not(.substep-visible):after {
+  position: absolute;
+  height: 60px;
+  width: 60px;
+  left: -30px;
+  top: -30px;
+  font-size: 40px;
+  text-align: center;
+  background-color: red;
+  color: #fff;
+  font-weight: bold;
+  content: attr(data-substep-order);
+  border-radius: 30px;
+  padding: 0;
+}
+
+.impress-console.preView * {
+    transition: none !important;
+}
+
+.impress-console.slideView:has(.step.active .substep:not(.substep-visible)) .impress-progress {
+    background-color: red;
+    color: #fff;
+}
+
+
+/* ----- Notes ----- */
+
+.notes {
+    position: absolute;
+    display: block;
+    z-index: 1000;
+    width: calc(100% - 200px);
+    height: calc(100% - 200px);
+    top: 0;
+    left: 0;
+    padding: 1em !important;
+    background: #fffd;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s ease-in-out;
+    border-radius: 10px;
+}
+.impress-with-notes .notes {
+    opacity: 1;
+}
+
+
+/* ----- Additions made by FaNo ----- */
+
+.impress-on-Overview .step,
+.impress-on-Overview .step .substep {
+    opacity: 1.0 !important;
+    transition: none;
+}
+
+.impress-enabled.blacked-out {
+    background: #000;
+}
+
+:root {
+	--tu-dgreen: #006b6b;
+	--tu-bgreen: #26d07c;
+    --tu-red: #bc261a;
+    --tu-blue: #00608e;
+    --tu-grey: #898989;
+    --aside-logo-width: 400px;
+}
+
+.tu-red {
+    color: var(--tu-red);
+}
+.tu-blue {
+    color: var(--tu-blue);
+}
+.tu-dgreen {
+	color: var(--tu-dgreen);
+}
+.tu-bgreen {
+	color: var(--tu-bgreen);
+}
+
+body,
+.step {
+    font-family: 'Open Sans', Arial, sans-serif;
+}
+
+img {
+    width: unset;
+}
+
+.slide {
+    border-radius: 10px;
+    background-image: none;
+    border: none;
+    box-shadow: none;
+    text-shadow: none;
+}
+.slide h1,
+.slide h2,
+.slide h3 {
+    color: #000000;
+    line-height: 1.3;
+}
+
+.slide.step h1,
+.slide.step h2 {
+    /*font-family: 'Asul', 'Open Sans', Arial, sans-serif;*/
+}
+
+.slide.title,
+.slide.segue {
+    background-image: none;
+}
+.slide.title h1,
+.slide.segue h1 {
+    text-align: left;
+    color: var(--tu-dgreen);
+    top: 280px;
+}
+.slide.title h2,
+.slide.segue h2 {
+    text-align: left;
+    font-size: 1.0em;
+    font-weight: normal;
+    top: 740px;
+    color: var(--tu-grey);
+}
+.slide.title h2 span {
+    color: #515151;
+}
+.slide.segue h1,
+.slide.segue h2 {
+    text-align: center;
+    position: relative;
+}
+.slide.segue h1 {
+    font-size: 4em;
+}
+
+aside.gdbar {
+    position: absolute;
+    left: 0;
+    top: 50px;
+    padding: calc(0.1 * var(--aside-logo-width)) calc(0.2 * var(--aside-logo-width));
+    border-radius: 0 10px 10px 0;
+    background: var(--tu-dgreen);
+    color: var(--tu-bgreen);
+    text-transform: uppercase;
+    height: calc(0.19 * var(--aside-logo-width));
+    line-height: calc(0.19 * var(--aside-logo-width));
+    font-weight: bold;
+    font-size: 36px;
+}
+aside.gdbar.right {
+    left: initial;
+    right: 0;
+    margin: 0;
+    line-height: 1.0;
+    background: var(--tu-bgreen);
+    padding: calc(0.1 * var(--aside-logo-width)) calc(0.075 * var(--aside-logo-width));
+    /* 96 is height of gray icon bar */
+    -webkit-transform: rotateZ(180deg);
+    -moz-transform: rotateZ(180deg);
+    -ms-transform: rotateZ(180deg);
+    -o-transform: rotateZ(180deg);
+    transform: rotateZ(180deg);
+}
+aside.gdbar.right img {
+    width: var(--aside-logo-width);
+    height: calc(0.5 * var(--aside-logo-width));
+	margin-top: -64px;
+    -webkit-transform: rotateZ(180deg);
+    -moz-transform: rotateZ(180deg);
+    -ms-transform: rotateZ(180deg);
+    -o-transform: rotateZ(180deg);
+    transform: rotateZ(180deg);
+}
+aside.gdbar.bottom {
+    top: initial;
+    bottom: 60px;
+}
+
+h1 sup {
+    font-size: 55px;
+    color: var(--tu-grey);
+}
+.slide footer {
+    position: absolute !important;
+    left: 0;
+    bottom: 0;
+    border-top: 1px solid var(--tu-grey);
+    padding: 6px 30px;
+    width: calc(100% - 60px);
+    font-size: 24px;
+    opacity: 0.6;
+}
+.slide footer sup {
+    color: var(--tu-grey);
+}
+
+.bg {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+.bg.full {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    border-radius: 10px;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+.ribbon {
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+    position: absolute;
+}
+.ribbon span,
+.ribbon a {
+    position: absolute;
+    display: block;
+    width: 488px;
+    padding: 22px 0;
+    background-color: #26d07ce3;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    color: #fff;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    z-index: 20;
+    text-shadow: 1px 1px #679903;
+    font-size: 38px;
+    line-height: 36px;
+}
+.ribbon.small {
+    width: 200px;
+    height: 200px;
+}
+.ribbon.small span {
+    width: 300px;
+}
+.ribbon-top-left {
+    top: -10px;
+    left: -10px;
+}
+.ribbon-top-left span,
+.ribbon-top-left a {
+    right: -45px;
+    top: 60px;
+    transform: rotate(-45deg);
+}
+
+.ribbon-top-right {
+    top: -15px;
+    right: -15px;
+}
+.ribbon-top-right span,
+.ribbon-top-right a {
+    left: -60px;
+    top: 90px;
+    transform: rotate(45deg);
+}
+.ribbon-top-right.small span {
+    left: -37px;
+    top: 48px;
+    font-size: 24px;
+    line-height: 10px;
+    background-color: #ef8327e0;
+    text-shadow: 1px 1px #994703;
+}
+
+.ribbon.wrapup span {
+    background-color: #8c64ffbf;
+}
+
+.definition {
+    display: block;
+}
+.definition:before {
+    content: "Definition. ";
+    font-weight: bold;
+    font-style: normal;
+}
+.definition[text]:before {
+    content: "Definition (" attr(text) "): ";
+}
+
+.shortcuts {
+    position: absolute;
+    top: 60px;
+    left: 60px;
+    color: #fff;
+    opacity: 0.0;
+    transform: opacity 1s;
+    z-index: 100;
+}
+.shortcuts:hover {
+    opacity: 1.0;
+}
+ul.shortcuts {
+    padding: 0;
+    margin: 0;
+    list-style: circle;
+}
+ul.shortcuts li {
+   margin: 0;
+}
+
+img.substep,
+div.substep:has(> img) {
+    z-index: -1;
+}
+
+#impress .step .substep.once.substep-visible:not(.substep-active) {
+    opacity: 0;
+}
+
+
+.left-col, .right-col {
+    width: 50%;
+}
+.left-col h1, .right-col h1 {
+    text-align: left;
+}
+.left-col {
+    float: left;
+}
+.right-col {
+    float: right;
+}
+
+.MathJax .hidden {
+    visibility: hidden;
+}
+
+
+#Formula1 h1 {
+    position: absolute;
+    z-index: 20;
+    right: 0;
+    top: 0px;
+    padding: 20px 40px;
+    font-size: 54px;
+    background: #fffc;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+#Formula1 img {
+    border-right: 4px solid #fff;
+    border-top: 4px solid #fff;
+}
+#Formula1 .table {
+    opacity: 0.7;
+    transition: opacity 1000ms;
+}
+#Formula1 video {
+    position: absolute;
+    right: 0;
+    height: 100%;
+}
+#Formula1:has(#playvideo.substep-visible) .table {
+    opacity: 0;
+}
+
+
+#Intro {
+    background: none;
+}
+#Intro > div:not(.substep) {
+    width: 700px;
+    height: 400px;
+    float: left;
+    position: relative;
+    margin: 50px 110px;
+    background-color: #000;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#Intro .substep {
+    position: absolute !important;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: #fff;
+    background-position: center;
+    background-origin: content-box;
+    width: 400px;
+    height: 290px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 5px 5px 5px #ccc;
+}
+
+#Intro-3D {
+    overflow: hidden;
+}
+#Intro-3D h2 {
+    text-align: left;
+    font-size: 1.2em;
+}
+#Intro-3D ul {
+    padding: 0;
+    font-size: 44px;
+}
+#Intro-3D ul,
+#Intro-3D h2 {
+    background: #ffffffb0;
+}
+#Intro-3D ul li {
+    margin: 0;
+}
+#Intro-3D > div {
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    background-position: center;
+}
+#Intro-3D > div:nth-child(2) {
+    background-image: url(../images/3D-representations/aluneu.gif);
+    background-size: 120% auto;
+    background-position: center 300px;
+}
+#Intro-3D.fast > div:nth-child(2) {
+    background-image: url(../images/3D-representations/animatedFoam.gif);
+    background-size: 160% auto;
+    background-position: center 260px;
+}
+#Intro-3D > div:nth-child(3) {
+    background-image: url(../images/3D-representations/revitneu.gif);
+    background-size: 120% auto;
+    background-position: center 200px;
+}
+#Intro-3D.fast > div:nth-child(3) {
+    background-image: url(../images/3D-representations/revitspoon.gif);
+    background-size: 80% auto;
+    background-position: center 10px;
+}
+#Intro-3D > div:nth-child(4) {
+    background-image: url(../images/3D-representations/KDFneu.gif);
+    background-size: 70% auto;
+    background-position: center 350px;
+}
+#Intro-3D.fast > div:nth-child(4) {
+    background-image: url(../images/3D-representations/KDF0.gif);
+    background-size: 110% auto;
+    background-position: center 120px;
+}
+
+
+#Intro-3D.fast > div:nth-child(2),
+#Intro-3D.fast > div:nth-child(2) h2,
+#Intro-3D.fast > div:nth-child(2) ul {
+    filter: invert(1);
+}
+
+#ME-Framework div.bg {
+    transition: background-image 1000ms;
+}
+#ME-Framework div.bg:has(.substep[data-substep-order="1"]) {
+    background-image: url(../images/me-framework-bg.png);
+}
+#ME-Framework div.bg:has(.substep[data-substep-order="1"]:not(.substep-visible)) {
+    background-image: none;
+}
+#ME-Framework .substep.substep-visible[data-substep-order="2"] {
+    transition: none;
+}
+#ME-Framework .substep-2-i0 {
+    position: absolute;
+    margin-top: -171px;
+    margin-left: 26px;
+    transition: margin-top 1500ms, margin-left 1500ms;
+}
+#ME-Framework .substep.substep-visible .substep-2-i0 {
+    margin-top: 0;
+    margin-left: 0;
+}
+#ME-Framework .substep-2-i1 {
+    position: absolute;
+    margin-top: -171px;
+    margin-left: 47px;
+    transition: margin-top 1500ms, margin-left 1500ms;
+}
+#ME-Framework .substep.substep-visible .substep-2-i1 {
+    margin-top: 0;
+    margin-left: 0;
+}
+#ME-Framework .substep[data-substep-order="2"] mjx-math > *,
+#ME-Framework .substep[data-substep-order="2"] mjx-math > mjx-msup:has(.substep-2-i0) > mjx-script,
+#ME-Framework .substep[data-substep-order="2"] mjx-math > mjx-msup:has(.substep-2-i0) > mjx-mrow > * {
+    opacity: 0;
+}
+#ME-Framework .substep.substep-visible[data-substep-order="2"] mjx-math > mjx-msup:has(.substep-2-i0),
+#ME-Framework .substep[data-substep-order="2"] mjx-math > mjx-msup:has(.substep-2-i0) > mjx-mrow > .substep-2-i0,
+#ME-Framework .substep[data-substep-order="2"] mjx-math > mjx-msup:has(.substep-2-i0) > mjx-mrow > .substep-2-i1 {
+    opacity: 1;
+}
+#ME-Framework .substep.substep-visible[data-substep-order="2"] mjx-math > *,
+#ME-Framework .substep.substep-visible[data-substep-order="2"] mjx-math > mjx-msup:has(.substep-2-i0) > mjx-script,
+#ME-Framework .substep.substep-visible[data-substep-order="2"] mjx-math > mjx-msup:has(.substep-2-i0) > mjx-mrow > * {
+    opacity: 1;
+}
+
+
+#Local-DVC h1,
+#Local-DVC > div:not(.substep) {
+    background: #fffd;
+}
+#Local-DVC > div mjx-container[jax="CHTML"][display="true"] {
+    margin: 0;
+}
+#Local-DVC .substep-1,
+#Local-DVC .substep-2 {
+    padding: 15px 10px 10px 10px;
+    margin: -15px -10px -10px -10px;
+    transition: background-color 1000ms;
+}
+#Local-DVC .substep-1 + .substep-2 {
+    margin-left: 10px;
+}
+#Local-DVC mjx-munderover.substep-1 { /* to span full line height */
+    padding-top: 15px;
+    margin-top: -15px;
+}
+#Local-DVC mjx-munderover.substep-2 { /* to span full line height */
+    padding-bottom: 15px;
+    margin-bottom: -15px;
+    padding-top: 10px;
+    margin-top: -10px;
+}
+#Local-DVC:has(.substep[data-substep-order="1"].substep-visible) .substep-1 {
+    background-color: #d138968a;
+}
+#Local-DVC:has(.substep[data-substep-order="2"].substep-visible) .substep-2 {
+    background-color: #26d07c7a;
+}
+#Local-DVC .substep-3-insert {
+    opacity: 1;
+    transition: opacity 1000ms;
+    border: 2px dashed transparent;
+    padding: 3px;
+    margin: -3px;
+}
+#Local-DVC:has(.substep[data-substep-order="3"]:not(.substep-visible)) .substep-3-insert {
+    opacity: 0;
+}
+#Local-DVC .substep-3-remove {
+    position: absolute;
+    margin-top: 6px;
+    margin-left: -78px;
+    padding: 10px;
+    border: 2px solid transparent;
+    background-color: transparent;
+    transition: margin-top ease-in 500ms, margin-left ease-out 800ms 480ms, background-color 800ms;
+}
+#Local-DVC:has(.substep[data-substep-order="3"].substep-visible) .substep-3-remove {
+    position: absolute;
+    margin-top: 65px;
+    margin-left: 80px;
+    background-color: #fffc;
+    border: 2px dashed #333;
+}
+#Local-DVC .substep-3-remove:before {
+    content: "";
+    position: absolute;
+    width: 200px;
+    height: 50px;
+    background-image: url(../images/local-dvc/arrow-left.png);
+    background-size: 140px;
+    background-position: 10px 0px;
+    background-repeat: no-repeat;
+    right: 38px;
+    top: -8px;
+    opacity: 0;
+    transition: opacity 1000ms 1500ms;
+}
+#Local-DVC:has(.substep[data-substep-order="3"].substep-visible) .substep-3-remove:before {
+    opacity: 1;
+}
+#Local-DVC:has(.substep[data-substep-order="3"].substep-visible) .substep-3-insert {
+    background-color: #fffc;
+    border: 2px dashed #333;
+}
+
+
+.impress-on-Comparison-State-of-the-Art #Comparison-Overview .container img {
+    opacity: 0;
+}
+.impress-on-Comparison-State-of-the-Art #Comparison-Overview .container .flex > div:nth-child(3),
+.impress-on-Comparison-State-of-the-Art #Comparison-Overview .container .flex > div:nth-child(4),
+.impress-on-Comparison-State-of-the-Art #Comparison-Overview .container .flex > div:nth-child(5) {
+    width: 0;
+    border-width: 0;
+}
+.impress-on-Comparison-State-of-the-Art #Comparison-Overview .container .flex > div:nth-child(3):before,
+.impress-on-Comparison-State-of-the-Art #Comparison-Overview .container .flex > div:nth-child(4):before,
+.impress-on-Comparison-State-of-the-Art #Comparison-Overview .container .flex > div:nth-child(5):before {
+    opacity: 0;
+}
+
+.impress-on-Comparison-State-of-the-Art #Comparison-Overview .container .flex > div,
+.impress-on-Comparison-State-of-the-Art #Comparison-Overview .container .flex > div:first-child {
+    width: calc(50% - 2px);
+}
+
+.impress-on-Comparison-State-of-the-Art #Comparison-Overview .container {
+    width: 15%;
+}
+
+#Comparison-State-of-the-Art {
+    transition: opacity 600ms;
+}
+#Comparison-State-of-the-Art {
+    opacity: 0;
+}
+.impress-on-Comparison-State-of-the-Art #Comparison-State-of-the-Art {
+    opacity: 1;
+}
+.impress-on-Comparison-State-of-the-Art #Comparison-Overview .container,
+.impress-on-Comparison-State-of-the-Art #Comparison-Overview .container .flex > div {
+    transition: none;
+}
+
+#Comparison-Overview h1 {
+    float: left;
+    width: 40%;
+    text-align: left;
+    margin-top: 0;
+}
+#Comparison-Overview > .formula {
+    position: absolute;
+    right: 60px;
+    top: 30px;
+    font-size: 38px;
+    scale: 1;
+    background: #fff;
+    z-index: 10;
+    transition: top 1500ms, right 1500ms ease-in-out, scale 1000ms, padding-top 1000ms, padding-bottom 1000ms, padding-right 1000ms;
+}
+#Comparison-Overview > .formula mjx-mtr {
+    transition: color 1000ms;
+}
+#Comparison-Overview .container {
+    float: right;
+    width: 30%;
+    padding-bottom: 50px;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    background-size: 102% auto;
+    margin-left: 5%;
+    transition: width 1000ms 800ms;
+    overflow: hidden;
+}
+.impress-on-Comparison-State-of-the-Art #Comparison-Overview .container {
+    max-height: 444px;
+}
+#Comparison-Overview .container .flex {
+    height: 440px;
+    column-gap: 10px;
+}
+#Comparison-Overview .container .flex > div {
+    position: relative;
+    float: left;
+    width: calc(25% - 4px);
+    height: 100%;
+    border: 1px solid #000;
+    background-size: 100% 100%;
+    transition: width 1000ms 800ms, border-width 1000ms 800ms;
+}
+#Comparison-Overview .container .flex > div:first-child {
+    border-color: transparent;
+}
+#Comparison-Overview .container .flex > div:first-child {
+    width: 0;
+    margin-left: -2px;
+}
+#Comparison-Overview .container .flex > div:not(:first-child):before {
+    position: absolute;
+    width: 100%;
+    background: #fffa;
+    text-align: center;
+    border-bottom: 1px solid #000;
+    font-size: 18px;
+    transition: opacity 1000ms 800ms;
+}
+#Comparison-Overview .container .flex > div:nth-child(2):before {
+    content: 'Ground Truth';
+}
+#Comparison-Overview .container .flex > div:nth-child(3):before {
+    content: 'Local DVC';
+}
+#Comparison-Overview .container .flex > div:nth-child(4):before {
+    content: 'ALDVC';
+}
+#Comparison-Overview .container .flex > div:nth-child(5):before {
+    content: 'Elas';
+}
+#Comparison-Overview .container .flex + img {
+    width: calc(100% + 4px);
+    margin: 0 -6px;
+    transition: opacity 1000ms ease-in 1800ms;
+}
+#Comparison-Overview .container.w .flex + img {
+    width: calc(100% + 4px);
+    margin: 0 -7px;
+}
+#Comparison-Overview .container .formula {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.impress-on-Comparison-Overview #Comparison-Overview .container .flex > div:nth-child(3),
+.impress-on-Comparison-Overview #Comparison-Overview .container .flex > div:nth-child(4),
+.impress-on-Comparison-Overview #Comparison-Overview .container .flex > div:nth-child(5) {
+    opacity: 0.3;
+}
+
+.impress-on-Comparison-Overview-u #Comparison-Overview,
+.impress-on-Comparison-Overview-v #Comparison-Overview,
+.impress-on-Comparison-Overview-w #Comparison-Overview,
+.impress-on-Comparison-Overview-reset #Comparison-Overview {
+    overflow: visible;
+}
+.impress-on-Comparison-State-of-the-Art #Comparison-Overview,
+.impress-on-Comparison-State-of-the-Art-u #Comparison-Overview,
+.impress-on-Comparison-State-of-the-Art-u #Comparison-Overview .container .flex > div,
+.impress-on-Comparison-State-of-the-Art-v #Comparison-Overview,
+.impress-on-Comparison-State-of-the-Art-v #Comparison-Overview .container .flex > div,
+.impress-on-Comparison-State-of-the-Art-w #Comparison-Overview,
+.impress-on-Comparison-State-of-the-Art-w #Comparison-Overview .container .flex > div,
+.impress-on-Comparison-State-of-the-Art-reset #Comparison-Overview,
+.impress-on-Comparison-State-of-the-Art-reset #Comparison-Overview .container .flex > div {
+    opacity: 1;
+}
+.impress-on-Comparison-State-of-the-Art-u #Comparison-Overview > .formula {
+    top: 142px;
+    right: 460px;
+    scale: 0.58;
+    padding-top: 400px;
+    padding-bottom: 300px;
+    padding-right: 40px;
+}
+.impress-on-Comparison-State-of-the-Art-v #Comparison-Overview > .formula {
+    top: 142px;
+    right: -160px;
+    scale: 0.58;
+    padding-top: 400px;
+    padding-bottom: 300px;
+    padding-right: 40px;
+}
+.impress-on-Comparison-State-of-the-Art-w #Comparison-Overview > .formula {
+    top: 142px;
+    right: -740px;
+    scale: 0.58;
+    padding-top: 400px;
+    padding-bottom: 300px;
+    padding-right: 20px;
+    border-bottom-right-radius: 10px;
+}
+.impress-on-Comparison-State-of-the-Art-u #Comparison-Overview > .formula mjx-itable:has(> mjx-mtr:nth-child(3)) > mjx-mtr:nth-child(2),
+.impress-on-Comparison-State-of-the-Art-u #Comparison-Overview > .formula mjx-itable:has(> mjx-mtr:nth-child(3)) > mjx-mtr:nth-child(3),
+.impress-on-Comparison-State-of-the-Art-v #Comparison-Overview > .formula mjx-itable:has(> mjx-mtr:nth-child(3)) > mjx-mtr:nth-child(1),
+.impress-on-Comparison-State-of-the-Art-v #Comparison-Overview > .formula mjx-itable:has(> mjx-mtr:nth-child(3)) > mjx-mtr:nth-child(3),
+.impress-on-Comparison-State-of-the-Art-w #Comparison-Overview > .formula mjx-itable:has(> mjx-mtr:nth-child(3)) > mjx-mtr:nth-child(1),
+.impress-on-Comparison-State-of-the-Art-w #Comparison-Overview > .formula mjx-itable:has(> mjx-mtr:nth-child(3)) > mjx-mtr:nth-child(2) {
+    color: #ccc;
+}
+.impress-on-Comparison-State-of-the-Art-reset #Comparison-Overview > .formula {
+    transition: top 2000ms 600ms, right 2000ms 600ms, scale 2000ms 600ms, padding-top 2000ms 600ms, padding-bottom 2000ms 600ms, padding-right 2000ms 600ms;
+}
+
+.theorem {
+    background-image: url(../images/theorem.png);
+    background-position: -23px -20px;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+
+#Tikhonov h1 {
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+}
+#Tikhonov p {
+    text-align: left;
+}
+#Tikhonov > .formula mjx-mtd {
+    padding-bottom: 25px !important;
+}
+
+#Local-DVC-cont > div {
+    padding: 0 200px;
+    text-align: left;
+}
+#Local-DVC-cont > div:has(.substep.substep-visible[data-substep-order="2"]) {
+    background-image: url(../images/local-dvc/trust-region.png);
+    background-size: 370px;
+    background-position: 650px 52px;
+}
+#ALDVC > div {
+    padding: 0 100px;
+    text-align: left;
+}
+#ALDVC ul {
+    padding: 0;
+    margin: 20px;
+}
+#ALDVC ul li {
+    list-style-type: square;
+    margin: 30px 0 30px 140px;
+    font-size: 39px;
+}
+#ALDVC ul li span {
+    margin-left: 20px;
+}
+#ALDVC .substep-1-hold-added,
+#ALDVC .substep-2-hold-added {
+    color:var(--tu-red);
+    opacity: 0;
+    transition: opacity 1000ms;
+}
+#ALDVC:has(.substep.substep-visible[data-substep-order="1"]):not(:has(.substep.substep-visible[data-substep-order="2"])) .substep-1-hold-added,
+#ALDVC:has(.substep.substep-visible[data-substep-order="2"]):not(:has(.substep.substep-visible[data-substep-order="3"])) .substep-2-hold-added,
+#ALDVC:has(.substep.substep-visible[data-substep-order="3"]) .substep-3-added {
+    opacity: 1.0;
+}
+#ALDVC .substep-1-hold,
+#ALDVC .substep-1-minimize,
+#ALDVC .substep-2-hold,
+#ALDVC .substep-2-minimize,
+#ALDVC .substep-3-update {
+    margin: -4px;
+    padding: 4px;
+    background-color: transparent;
+    transition: background 1000ms;
+}
+#ALDVC:has(.substep.substep-visible[data-substep-order="1"]):not(:has(.substep.substep-visible[data-substep-order="2"])) .substep-1-hold,
+#ALDVC:has(.substep.substep-visible[data-substep-order="2"]):not(:has(.substep.substep-visible[data-substep-order="3"])) .substep-2-hold {
+    background-color: #e31b4c4e;
+}
+#ALDVC:has(.substep.substep-visible[data-substep-order="1"]):not(:has(.substep.substep-visible[data-substep-order="2"])) .substep-1-minimize,
+#ALDVC:has(.substep.substep-visible[data-substep-order="2"]):not(:has(.substep.substep-visible[data-substep-order="3"])) .substep-2-minimize {
+    background-color: #26d07c5a;
+}
+#ALDVC:has(.substep.substep-visible[data-substep-order="3"]) .substep-3-update {
+    background-color: #d138968a;
+}
+
+#ALDVC mjx-msubsup:has(.substep-2-hold-added.long) {
+    margin-right: -48px;
+    transition: margin-right 1000ms;
+}
+#ALDVC:has(.substep.substep-visible[data-substep-order="1"]):not(:has(.substep.substep-visible[data-substep-order="2"])) .formula .substep-1-minimize {
+    background: linear-gradient(90deg, #26d07c7a 0%, #26d07c7a 50px, #fff 50px, #fff 100%);
+}
+#ALDVC:has(.substep.substep-visible[data-substep-order="2"]):not(:has(.substep.substep-visible[data-substep-order="3"])) mjx-msubsup:has(.substep-2-hold-added.long) {
+    margin-right: 0;
+}
+
+
+#Global-DVC:has(.substep.substep-visible[data-substep-order="1"]) > div.bg {
+    background-image: url(../images/global-dvc/finite-elements.png);
+    background-size: 340px;
+    background-position: 828px -4px;
+}
+#Global-DVC .substep-1 {
+    margin-right: -377px;
+    transition: margin-right 1000ms, opacity 1000ms;
+}
+#Global-DVC:has(.substep.substep-visible[data-substep-order="2"]) .substep-1 {
+    margin-right: 0;
+    opacity: 0;
+}
+#Global-DVC .substep-2 {
+    opacity: 0;
+    transition: opacity 1000ms, margin-left 1000ms;
+    margin-left: 0;
+}
+#Global-DVC:has(.substep.substep-visible[data-substep-order="2"]) .substep-2 {
+    opacity: 1;
+    margin-left: -177px;
+}
+#Global-DVC > div.bg > .MathJax {
+    margin-left: 0;
+    transition: margin-left 1000ms;
+    padding-top: 4px;
+}
+#Global-DVC:has(.substep.substep-visible[data-substep-order="2"]) > div.bg > .MathJax {
+    margin-left: 157px;
+}
+
+
+#MIR {
+    text-align: center;
+}
+#MIR .reg {
+    margin-left: 150px;
+}
+#MIR .substep.no-transition[data-substep-order="3"] {
+    transition: none;
+}
+#MIR .substep-3-phi {
+    position: absolute;
+    left: 0;
+    margin-left: 627px;
+    margin-top: -207px;
+    transition: margin-top 1500ms 300ms, margin-left 1500ms 300ms;
+}
+#MIR:has(.substep.substep-visible[data-substep-order="3"]) .substep-3-phi,
+#MIR:has(.substep.substep-visible[data-substep-order="3"]) .substep-3-reg {
+    margin-left: 0;
+    margin-top: 0;
+}
+#MIR .substep-3-reg {
+    position: absolute;
+    left: 0;
+    top: 25px;
+    margin-left: 590px;
+    margin-top: -213px;
+    transition: margin-top 1500ms 300ms, margin-left 1500ms 300ms;
+}
+#MIR .substep-3-eq {
+    opacity: 0;
+    transition: opacity 1000ms 2100ms;
+}
+#MIR:has(.substep.substep-visible[data-substep-order="3"]) .substep-3-eq {
+    opacity: 1;
+}
+#MIR .substep.bg.substep-visible[data-substep-order="3"] {
+    position: absolute;
+    width: 100%;
+    height: 400px;
+    background-image: url(../images/mir/elastic-image-registration.png);
+    background-size: 110% auto;
+    left: 0;
+    top: 420px;
+    transition: opacity 1000ms 2100ms !important;
+    z-index: -1;
+}
+#MIR .substep.once.substep-visible:not(.substep-active) {
+    display: none;
+}
+
+
+#TVOpticalFlow .formula,
+#TVOpticalFlow .formula mjx-container {
+    text-align: left;
+    margin: 0;
+}
+#TVOpticalFlow .tv-desc {
+    font-style: italic;
+}
+#TVOpticalFlow .substep.substep-visible[data-substep-order="1"]:before {
+    content: '';
+    position: absolute;
+    top: 11px;
+    left: -330px;
+    width: 325px;
+    height: 200px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url(../images/total-variation/total-variation-arrow.png);
+    z-index: -1;
+}
+#TVOpticalFlow .substep.substep-visible[data-substep-order="2"] {
+    transition: none;
+}
+#TVOpticalFlow .substep[data-substep-order="2"] .substep-2-t,
+#TVOpticalFlow .substep[data-substep-order="2"] .substep-2-v {
+    position: absolute;
+    transition: margin-top 800ms, margin-left 1500ms 600ms;
+}
+#TVOpticalFlow .substep[data-substep-order="2"] .substep-2-t {
+    margin-top: -199px;
+    margin-left: 1002px;
+}
+#TVOpticalFlow .substep.substep-visible[data-substep-order="2"] .substep-2-t {
+    margin-top: 6px;
+    margin-left: 0;
+}
+#TVOpticalFlow .substep[data-substep-order="2"] .substep-2-v {
+    margin-top: -199px;
+    margin-left: 1112px;
+}
+#TVOpticalFlow .substep.substep-visible[data-substep-order="2"] .substep-2-v {
+    margin-top: 8px;
+    margin-left: 35px;
+}
+#TVOpticalFlow .substep[data-substep-order="2"] .substep-2-rest {
+    opacity: 0;
+    transition: opacity 1000ms 2400ms;
+}
+#TVOpticalFlow .substep.substep-visible[data-substep-order="2"] .substep-2-rest {
+    opacity: 1;
+}
+#TVOpticalFlow ul.substep[data-substep-order="3"] {
+    position: absolute;
+    font-size: 32px;
+    left: 1000px;
+    top: 200px;
+}
+#TVOpticalFlow ul.substep[data-substep-order="3"] li {
+    list-style-image: url(../images/plus.png);
+}
+#TVOpticalFlow ul.substep[data-substep-order="3"]:before {
+    content: '';
+    position: absolute;
+    top: -86px;
+    left: 21px;
+    width: 670px;
+    height: 500px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url(../images/total-variation/box-bg.png);
+    z-index: -1;
+}
+
+
+#TV-3D .jdata,
+#TV-3D .jgrad,
+#TV-3D .jsmooth,
+#TV-3D .psi {
+    font-size: 32px;
+}
+#TV-3D .jdata {
+    float: left;
+}
+#TV-3D .jsmooth {
+    float: right;
+}
+#TV-3D .jdata mjx-container[jax="CHTML"][display="true"],
+#TV-3D .jgrad mjx-container[jax="CHTML"][display="true"],
+#TV-3D .jsmooth mjx-container[jax="CHTML"][display="true"] {
+    margin: 0;
+}
+#TV-3D .substep[data-substep-order="1"] {
+    margin-top: 0;
+    transition: opacity 600ms, margin-top 1000ms !important;
+}
+#TV-3D .substep[data-substep-order="1"]:before {
+    content: '';
+    position: absolute;
+    top: 63px;
+    left: 21px;
+    width: 1180px;
+    height: 500px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url(../images/total-variation/approximation-arrows.png);
+    z-index: -1;
+}
+#TV-3D .psi:before {
+    content: '';
+    position: absolute;
+    top: 18px;
+    left: -117px;
+    width: 115px;
+    height: 500px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url(../images/total-variation/arrow-psi.png);
+    z-index: -1;
+}
+#TV-3D:has(.substep.substep-visible[data-substep-order="2"]) .substep.substep-visible[data-substep-order="1"] {
+    opacity: 0;
+    margin-top: -420px;
+}
+#TV-3D span:has(+ .substep[data-substep-order="4"]) {
+    margin: 0;
+    transition: opacity 800ms, margin-left 1000ms;
+}
+#TV-3D span:has(+ .substep.substep-visible[data-substep-order="4"]) {
+    opacity: 0;
+    margin-left: -325px;
+}
+#TV-3D .substep[data-substep-order="4"] {
+    opacity: 0;
+    margin: 0;
+}
+#TV-3D .substep.substep-visible[data-substep-order="4"] {
+    opacity: 1;
+}
+
+#TV-3D .substep-4 {
+    font-size: 0;
+    transition: font-size 1000ms 800ms;
+}
+#TV-3D .substep-4:not(.no-color) {
+    color: var(--tu-red);
+    transition: font-size 1500ms 2300ms;
+}
+#TV-3D:has(.substep.substep-visible[data-substep-order="4"]) mjx-container .substep-4 {
+    font-size: 100%;
+}
+#TV-3D:has(.substep.substep-visible[data-substep-order="4"]) mjx-container [size="s"].substep-4 {
+    font-size: 70.7%;
+}
+#TV-3D .substep .partial {
+    position: absolute;
+    left: 655px;
+    top: 44px;
+    font-size: 32px;
+    opacity: 1;
+    transition: opacity 800ms;
+}
+#TV-3D:has(.substep.substep-visible[data-substep-order="4"]) .substep .partial {
+    opacity: 0;
+}
+#TV-3D .substep .partial:before {
+    content: '';
+    position: absolute;
+    top: 18px;
+    left: -117px;
+    width: 122px;
+    height: 500px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url(../images/total-variation/arrow-partial.png);
+    z-index: -1;   
+}
+#TV-3D:not(:has(.substep.substep-visible[data-substep-order="1"])) h1 sup + sup,
+#TV-3D:has(.substep.substep-visible[data-substep-order="1"]) h1 sup:has(+ sup) {
+    display: none;
+}
+
+
+#TVL1 .substep-0,
+#TVL1 .substep-1,
+#TVL1 .substep-2 {
+    transition: opacity 800ms, width 1000ms;
+}
+#TVL1 .substep-0 {
+    opacity: 1;
+    width: 293px;
+}
+#TVL1:has(.substep.substep-visible[data-substep-order="1"]) .substep-1 {
+    opacity: 1;
+    width: 720px;
+}
+#TVL1:has(.substep.substep-visible[data-substep-order="2"]) .substep-2 {
+    opacity: 1;
+    width: 74px;
+}
+#TVL1:not(:has(.substep.substep-visible[data-substep-order="1"])) h1 sup + sup,
+#TVL1:has(.substep.substep-visible[data-substep-order="1"]) h1 sup:has(+ sup) {
+    display: none;
+}
+
+
+#TVL1 .substep-1,
+#TVL1 .substep-2,
+#TVL1:has(.substep.substep-visible[data-substep-order="1"]) .substep-0,
+#TVL1:has(.substep.substep-visible[data-substep-order="2"]) .substep-1 {
+    opacity: 0;
+    width: 0;
+}
+
+#TVL1-cont .MathJax > mjx-math > mjx-mtable > mjx-table > mjx-itable > mjx-mtr {
+    border-bottom: 30px solid transparent;
+}
+#TVL1-cont .MathJax {
+    margin: 0;
+}
+
+
+/*#Error-Estimates h1 {
+    position: absolute;
+    right: 0;
+    margin: -0.5em 0 0 0;
+    padding: 20px 50px 25px 50px;
+    background: url(../images/total-variation/box-bg.png);
+    border-left: 1px solid #ccc; border-bottom: 1px solid #ccc;
+    background-position: -30px -30px;
+    border-bottom-left-radius: 30px;
+    text-align: right;
+}
+#Error-Estimates .abbr {
+    font-size: 54px;
+    width: 36%;
+    float: left;
+    clear: both;
+}
+#Error-Estimates .MathJax > mjx-math > mjx-mtable > mjx-table > mjx-itable > mjx-mtr {
+    border-bottom: 30px solid transparent;
+}
+#Error-Estimates table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 35px;
+}
+#Error-Estimates table,
+#Error-Estimates th,
+#Error-Estimates td {
+    border: 1px solid #ccc;
+}
+#Error-Estimates th {
+    background: url(../images/total-variation/box-bg.png);
+    background-position: -30px -30px
+}
+#Error-Estimates td {
+    text-align: center;
+}
+#Error-Estimates > .formula {
+    font-size: 35px;
+    float: left;
+}
+#Error-Estimates td.highlight {
+    background: #26d07c5a;
+}
+*/
+
+#Trip-Example > div {
+    position: relative;
+    float: left;
+    margin-left: 5%;
+    width: 30%;
+    height: 760px;
+    background-size: 100% auto;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #fff;
+}
+#Trip-Example div:has(.substep.substep-visible[data-substep-order="1"]) {
+    background-image: url(../images/trip-example/tripSlice3DOF.png) !important;
+    background-size: 448px auto !important;
+}
+#Trip-Example div:has(.substep.substep-visible[data-substep-order="2"]) {
+    background-image: url(../images/trip-example/ROI_297.gif) !important;
+    background-size: 448px auto !important;
+}
+#Trip-Example .caption {
+    position: absolute;
+    bottom: 40px;
+    width: 100%;
+    background: #ededede0;
+    text-align: center;
+}
+
+#Trip-Example-2 img + div:not(.caption) {
+    margin-top: -15px;
+    padding: 8px 16px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+#Trip-Example-2 div img {
+    width: 100%;
+}
+#Trip-Example-2 .caption {
+    text-align: center;
+    background: #ccc;
+}
+
+#Trip-disp-con img + div:not(.caption) {
+    margin-top: -15px;
+    padding: 8px 16px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+#Trip-disp-con div img {
+    width: 100%;
+}
+#Trip-disp-con .caption {
+    text-align: center;
+    background: #ccc;
+	font-size: 25px;
+}
+#Image-pyramid .problem {
+	text-align: center;
+	width: 100%;
+
+}
+#Image-pyramid .solution {
+	float: left;
+	height: 800px;
+    width: 30%;
+}
+#Image-pyramid .solution h2 {
+    position: relative;
+	text-align: center;
+	font-size: 36px;
+	width: 30%;
+    height: 46px;
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-color: #ccc;
+}
+#Image-pyramid .substep[data-substep-order="1"] .substep-1 {
+    position: absolute;
+    transition: margin-top 800ms, margin-left 1500ms 600ms;
+}
+
+#Image-pyramid .substep.substep-visible[data-substep-order="1"] .substep-1 {
+   margin-top: -199px;
+    margin-left: 1002px;
+}
+
+/*#Ceramic-Example-1 img + div:not(.caption) {
+    margin-top: -15px;
+    padding: 8px 16px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+#Ceramic-Example-1 div img {
+    width: 100%;
+}
+#Ceramic-Example-1 .caption,
+#Ceramic-Example-Disp .caption,
+#Ceramic-Example-Error .caption {
+    text-align: center;
+    background: #ccc;
+}*/
+
+#Concrete-1 li {
+    margin-right: 0;
+}
+#Concrete-1 .ghost:before {
+    content: '';
+    position: absolute;
+    top: 0px;
+    right: -106px;
+    width: 150px;
+    height: 200px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url(../images/ghost.png);
+    z-index: -1;
+    transition: opacity 1500ms !important;
+    opacity: 0;
+}
+#Concrete-1 .ghost:has(+ .substep.substep-visible[data-substep-order="1"]):before {
+    opacity: 1;
+}
+
+
+#Concrete-2 img:not(.visualisation),
+#Morph-Wave img {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+}
+#Concrete-2 img.bigger,
+#Morph-Wave img.bigger {
+    width: 260px;
+    height: 260px;
+}
+#Concrete-2 img:hover,
+#Morph-Wave img:hover {
+    z-index: 100;
+}
+#Concrete-2 img.substep.substep-visible,
+#Morph-Wave img.substep.substep-visible {
+    transition: opacity 1000ms 0;
+}
+#Concrete-2 img.substep.substep-visible + img.substep.substep-visible,
+#Morph-Wave img.substep.substep-visible + img.substep.substep-visible {
+    transition: opacity 1000ms 1000ms;
+}
+#Concrete-2 img.substep.substep-visible + img.substep.substep-visible + img.substep.substep-visible,
+#Morph-Wave img.substep.substep-visible + img.substep.substep-visible + img.substep.substep-visible {
+    transition: opacity 1000ms 2000ms;
+}
+#Concrete-2 img.substep.substep-visible + img.substep.substep-visible + img.substep.substep-visible + img.substep.substep-visible,
+#Morph-Wave img.substep.substep-visible + img.substep.substep-visible + img.substep.substep-visible + img.substep.substep-visible {
+    transition: opacity 1000ms 3000ms;
+}
+#Concrete-2 img.substep.substep-visible + img.substep.substep-visible + img.substep.substep-visible + img.substep.substep-visible + img.substep.substep-visible,
+#Morph-Wave img.substep.substep-visible + img.substep.substep-visible + img.substep.substep-visible + img.substep.substep-visible + img.substep.substep-visible {
+    transition: opacity 1000ms 4000ms;
+}
+#Concrete-2 img.substep.substep-visible + img.substep.substep-visible + img.substep.substep-visible + img.substep.substep-visible + img.substep.substep-visible[data-substep-order="2"],
+#Morph-Wave img.substep.substep-visible + img.substep.substep-visible + img.substep.substep-visible + img.substep.substep-visible + img.substep.substep-visible[data-substep-order="2"] {
+    transition: opacity 1000ms;
+}
+#Concrete-2 .visualisation + div a {
+    padding: inherit;
+    box-shadow: none;
+    text-shadow: none;
+    border: none;
+    background: inherit;
+}
+
+#Concrete-real-test h2,
+#Concrete-real-test-2 h2 {
+    margin-top: 15px;
+}
+#Concrete-real-test img,
+#Concrete-real-test-2 img {
+    width: 100%;
+}
+#Concrete-real-test .caption,
+#Concrete-real-test-2 .caption {
+    font-size: 38px;
+}
+
+
+#Image-Pyramids img:not(.visualisation) {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+}
+#Image-Pyramids img:hover {
+    z-index: 100;
+}
+#Image-Pyramids img.substep.substep-visible {
+    transition: opacity 1000ms 0;
+}
+#Image-Pyramids img.substep.substep-visible + img.substep.substep-visible {
+    transition: opacity 1000ms 1000ms;
+}
+#Image-Pyramids img.substep.substep-visible + img.substep.substep-visible + img.substep.substep-visible {
+    transition: opacity 1000ms 2000ms;
+}
+#Image-Pyramids img.substep.substep-visible + img.substep.substep-visible + img.substep.substep-visible + img.substep.substep-visible {
+    transition: opacity 1000ms 3000ms;
+}
+#Image-Pyramids img.substep.substep-visible + img.substep.substep-visible + img.substep.substep-visible + img.substep.substep-visible + img.substep.substep-visible {
+    transition: opacity 1000ms 4000ms;
+}
+#Image-Pyramids img.substep.substep-visible + img.substep.substep-visible + img.substep.substep-visible + img.substep.substep-visible + img.substep.substep-visible + img.substep.substep-visible {
+    transition: opacity 1000ms 5000ms;
+}
+#Image-Pyramids .visualisation + div a {
+    padding: inherit;
+    box-shadow: none;
+    text-shadow: none;
+    border: none;
+    background: inherit;
+}
+#Image-Pyramids .visualisation {
+    transition: none !important;
+}
+
+
+#Conclusion h1 {
+    text-align: left;
+}
+#Conclusion ul {
+    margin: 0;
+    padding: 0;
+    font-size: 40px;
+}
+
+
+#Comparison-TV h1 {
+    float: left;
+    width: 40%;
+    text-align: left;
+}
+#Comparison-TV .container {
+    float: left;
+    width: 45%;
+    padding-bottom: 60px;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    background-size: 100% auto;
+    margin-left: 5%;
+}
+#Comparison-TV .container .flex {
+    display: flex;
+    height: 360px;
+    column-gap: 10px;
+}
+#Comparison-TV .container .flex > div {
+    position: relative;
+    flex: 1 1 0;
+    width: 0;
+    border: 1px solid #000;
+    background-size: 101% 100%;
+}
+#Comparison-TV .container .formula {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+#Comparison-TV .container .flex > div:before {
+    position: absolute;
+    width: 100%;
+    background: #fffa;
+    text-align: center;
+    border-bottom: 1px solid #000;
+    font-size: 18px;
+}
+#Comparison-TV .container .flex > div:nth-child(1):before {
+    content: 'Ground Truth';
+}
+#Comparison-TV .container .flex > div:nth-child(2):before {
+    content: '3DOF';
+}
+#Comparison-TV .container .flex > div:nth-child(3):before {
+    content: 'TVL1';
+}
+#Comparison-TV .container .flex > div:nth-child(4):before {
+    content: 'ALDVC';
+}
+.impress-on-Comparison-TV-u #Comparison-TV,
+.impress-on-Comparison-TV-v #Comparison-TV,
+.impress-on-Comparison-TV-w #Comparison-TV,
+.impress-on-Comparison-TV-reset #Comparison-TV {
+    opacity: 1.0;
+}
+
+.impress-on-Trip-disp-con-adjusted #Trip-disp-con {
+    opacity: 1.0;
+}
+.impress-on-Trip-disp-con-adjusted #Trip-disp-con .to-be-replaced {
+    transition: opacity 1s 1.5s;
+}
+.impress-on-Trip-disp-con-adjusted #Trip-disp-con .to-be-replaced {
+    opacity: 0;
+}
+#Trip-disp-con .replacement {
+    transition: opacity 1s 2.5s;
+    opacity: 0;
+}
+.impress-on-Trip-disp-con-adjusted #Trip-disp-con .replacement {
+    opacity: 1;
+}
+
+
+
+
+#Min-Reg ol li {
+    margin: 0.2em 2em;
+}
+
+#Uncertainty div:has(> img) {
+    float: left;
+    width: calc(24% - 2px * 2);
+    margin-right: 1%;
+    border: 2px solid #ccc;
+}
+#Uncertainty div img {
+    width: 100%;
+}
+#Uncertainty .caption {
+    text-align: center;
+    background: #ccc;
+}
+
+#Uncertainty-Revit img + div:not(.caption) {
+    margin-top: -15px;
+    padding: 8px 16px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+#Uncertainty-Revit img + div:not(.caption):last-child {
+    border-bottom: none;
+}
+#Uncertainty-Revit div:has(> .caption) {
+    border: 2px solid #ccc;
+}
+#Uncertainty-Revit div > .caption {
+    text-align: center;
+    background: #ccc;
+}
+
+#Add-Info-Perf .caption {
+    text-align: center;
+}
+
+mjx-ext mjx-c::before {
+    font-weight: bold;
+}
+
+#TV-3D .ribbon span {
+    background-color: #ffa252e0;
+    text-shadow: 1px 1px #994703;
+}
+
+#Morph-wave-back-1 table th,
+#Morph-wave-back-2 table th {
+    text-align: center;
+}
+#Morph-wave-back-1 table td {
+    text-align: center;
+    padding: 0;
+    width: 290px;
+    height: 270px;
+    overflow: hidden;
+}
+#Morph-wave-back-1 img {
+    width: 270px;
+    height: 270px;
+}
+#Morph-wave-back-1 h1 {
+    position: absolute;
+    right: 0;
+    margin: -0.5em 0 0 0;
+    padding: 20px 50px 25px 50px;
+    background: url(../images/total-variation/box-bg.png);
+    border-left: 1px solid #ccc; border-bottom: 1px solid #ccc;
+    background-position: -30px -30px;
+    border-bottom-left-radius: 30px;
+    text-align: right;
+    font-size: 1.8em;
+}
+
+#Morph-wave-back-2 img {
+    height: 245px;
+}
+#Morph-wave-back-2 table td {
+    padding: 0;
+    width: 500px;
+    text-align: center;
+}
